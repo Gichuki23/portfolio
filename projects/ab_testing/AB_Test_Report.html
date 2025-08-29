@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A/B Test Report: CTA Button Optimization</title>
+        <link rel="icon" type="image/png" href="./images/partoe.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            900: '#121212',
+                            800: '#1E1E1E',
+                            700: '#2A2A2A',
+                            600: '#363636',
+                        },
+                        primary: {
+                            500: '#F59E0B',
+                            600: '#D97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+        
+        .stat-card {
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #F59E0B;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #2A2A2A;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #F59E0B;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D97706;
+        }
+    </style>
+</head>
+<body class="bg-dark-900 text-gray-200 min-h-screen">
+        <!-- Navigation -->
+    <nav class="bg-dark-800 shadow-sm fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-primary-500">Patrick Gichuki</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="../../index.html#home" class="text-gray-300 hover:text-primary-500 px-3 py-2 text-sm font-medium">Home</a>
+                    <a href="../../index.html#about" class="text-gray-300 hover:text-primary-500 px-3 py-2 text-sm font-medium">About</a>
+                    <a href="../../index.html#skills" class="text-gray-300 hover:text-primary-500 px-3 py-2 text-sm font-medium">Skills</a>
+                    <a href="../../index.html#projects" class="text-gray-300 hover:text-primary-500 px-3 py-2 text-sm font-medium">Projects</a>
+                    <a href="../../index.html#contact" class="text-gray-300 hover:text-primary-500 px-3 py-2 text-sm font-medium">Contact</a>
+                </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Spacer for fixed navbar -->
+    <div class="h-16"></div>
+    
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-bold text-primary-500">A/B Test Report</h1>
+                    <h2 class="text-xl md:text-2xl font-semibold text-gray-300">CTA Button Optimization</h2>
+                </div>
+                <!-- Removed theme toggle and export PDF button -->
+            </div>
+            
+            <div class="bg-dark-800 rounded-xl p-6 shadow-lg border-l-4 border-primary-500">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                    <div class="mb-4 md:mb-0">
+                        <h3 class="text-xl font-bold text-primary-500 mb-2">Executive Summary</h3>
+                        <p class="text-gray-300">The new CTA button design shows a <span class="font-bold text-green-400">+207% increase</span> in click-through rate with <span class="font-bold text-green-400">99.9%+ statistical confidence</span>.</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <div class="bg-dark-700 px-4 py-3 rounded-lg">
+                            <p class="text-sm text-gray-400">Test Result</p>
+                            <p class="text-lg font-bold text-green-400">Implement New CTA</p>
+                        </div>
+                        <div class="bg-dark-700 px-4 py-3 rounded-lg">
+                            <p class="text-sm text-gray-400">Confidence</p>
+                            <p class="text-lg font-bold">99.9%+</p>
+                        </div>
+                        <div class="bg-dark-700 px-4 py-3 rounded-lg">
+                            <p class="text-sm text-gray-400">Improvement</p>
+                            <p class="text-lg font-bold text-primary-500">+207%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Navigation -->
+        <nav class="mb-8 overflow-x-auto">
+            <div class="flex space-x-1 bg-dark-800 p-1 rounded-lg">
+                <a href="#overview" class="nav-link active px-4 py-2 rounded-md font-medium text-gray-300 hover:text-white">Overview</a>
+                <a href="#results" class="nav-link px-4 py-2 rounded-md font-medium text-gray-300 hover:text-white">Results</a>
+                <a href="#analysis" class="nav-link px-4 py-2 rounded-md font-medium text-gray-300 hover:text-white">Analysis</a>
+                <a href="#impact" class="nav-link px-4 py-2 rounded-md font-medium text-gray-300 hover:text-white">Business Impact</a>
+                <a href="#recommendations" class="nav-link px-4 py-2 rounded-md font-medium text-gray-300 hover:text-white">Recommendations</a>
+                <a href="#appendix" class="nav-link px-4 py-2 rounded-md font-medium text-gray-300 hover:text-white">Appendix</a>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <!-- Left Sidebar -->
+            <div class="lg:col-span-1 space-y-6">
+                <!-- Key Metrics -->
+                <div class="bg-dark-800 rounded-xl p-6 shadow-lg">
+                    <h3 class="text-lg font-bold text-primary-500 mb-4">Key Metrics</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-sm text-gray-400">Test Duration</p>
+                            <p class="font-medium">2 weeks</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-400">Sample Size</p>
+                            <p class="font-medium">20,000 users</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-400">Traffic Split</p>
+                            <p class="font-medium">50/50</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-400">Control CTR</p>
+                            <p class="font-medium">19.89%</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-400">Variant CTR</p>
+                            <p class="font-medium text-primary-500">61.16%</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Test Variants -->
+                <div class="bg-dark-800 rounded-xl p-6 shadow-lg">
+                    <h3 class="text-lg font-bold text-primary-500 mb-4">Test Variants</h3>
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-gray-500 pl-4">
+                            <p class="font-bold">Control</p>
+                            <p class="text-sm text-gray-400">Original CTA button</p>
+                            <div class="mt-2 w-full h-10 bg-gray-600 rounded flex items-center justify-center">
+                                <span class="text-gray-900 font-medium">Sign Up Now</span>
+                            </div>
+                        </div>
+                        <div class="border-l-4 border-primary-500 pl-4">
+                            <p class="font-bold">Variant</p>
+                            <p class="text-sm text-gray-400">New CTA button</p>
+                            <div class="mt-2 w-full h-10 bg-primary-500 rounded flex items-center justify-center">
+                                <span class="text-dark-900 font-medium">Get Started Free</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="bg-dark-800 rounded-xl p-6 shadow-lg">
+                    <h3 class="text-lg font-bold text-primary-500 mb-4">Quick Links</h3>
+                    <div class="space-y-2">
+                        <a href="#" class="flex items-center text-gray-300 hover:text-white">
+                            <i class="fas fa-chart-line mr-3 text-primary-500"></i>
+                            <span>Raw Data</span>
+                        </a>
+                        <a href="#" class="flex items-center text-gray-300 hover:text-white">
+                            <i class="fas fa-code mr-3 text-primary-500"></i>
+                            <span>Analysis Code</span>
+                        </a>
+                        <a href="#" class="flex items-center text-gray-300 hover:text-white">
+                            <i class="fas fa-users mr-3 text-primary-500"></i>
+                            <span>User Feedback</span>
+                        </a>
+                        <a href="#" class="flex items-center text-gray-300 hover:text-white">
+                            <i class="fas fa-calendar-alt mr-3 text-primary-500"></i>
+                            <span>Implementation Plan</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content Area -->
+            <div class="lg:col-span-3 space-y-8">
+                <!-- Test Overview -->
+                <section id="overview" class="bg-dark-800 rounded-xl p-6 shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-primary-500">1. Test Overview</h3>
+                        <span class="bg-dark-700 text-primary-500 text-sm font-medium px-3 py-1 rounded-full">Objective</span>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-bold text-gray-300 mb-2">1.1 Objective</h4>
+                        <p class="text-gray-400">Evaluate whether a new Call-to-Action (CTA) button design improves user engagement compared to the current design.</p>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-bold text-gray-300 mb-2">1.2 Hypothesis</h4>
+                        <div class="bg-dark-700 p-4 rounded-lg mb-3">
+                            <p class="text-sm text-gray-400 mb-1">Null Hypothesis (H₀)</p>
+                            <p class="text-gray-300">There is no difference in click-through rates between the current and new CTA button designs</p>
+                        </div>
+                        <div class="bg-dark-700 p-4 rounded-lg border-l-4 border-primary-500">
+                            <p class="text-sm text-gray-400 mb-1">Alternative Hypothesis (H₁)</p>
+                            <p class="text-gray-300">The new CTA button design has a different click-through rate than the current design</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-gray-300 mb-2">1.3 Success Metrics</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="stat-card bg-dark-700 p-4 rounded-lg">
+                                <div class="flex items-center mb-2">
+                                    <div class="w-3 h-3 rounded-full bg-primary-500 mr-2"></div>
+                                    <p class="text-sm font-medium">Primary Metric</p>
+                                </div>
+                                <p class="text-lg font-bold">Click-through rate (CTR)</p>
+                            </div>
+                            <div class="stat-card bg-dark-700 p-4 rounded-lg">
+                                <div class="flex items-center mb-2">
+                                    <div class="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
+                                    <p class="text-sm font-medium">Success Threshold</p>
+                                </div>
+                                <p class="text-lg font-bold">10% improvement</p>
+                            </div>
+                            <div class="stat-card bg-dark-700 p-4 rounded-lg">
+                                <div class="flex items-center mb-2">
+                                    <div class="w-3 h-3 rounded-full bg-blue-500 mr-2"></div>
+                                    <p class="text-sm font-medium">Statistical Threshold</p>
+                                </div>
+                                <p class="text-lg font-bold">95% confidence</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Test Results -->
+                <section id="results" class="bg-dark-800 rounded-xl p-6 shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-primary-500">3. Results</h3>
+                        <span class="bg-dark-700 text-primary-500 text-sm font-medium px-3 py-1 rounded-full">Findings</span>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-bold text-gray-300 mb-4">3.1 Performance Summary</h4>
+                        
+                        <!-- Chart Placeholder -->
+                        <div class="bg-dark-700 rounded-lg p-4 mb-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h5 class="font-medium">Click Distribution by Group</h5>
+                                <div class="flex space-x-2">
+                                    <button class="text-xs bg-dark-800 px-2 py-1 rounded">Daily</button>
+                                    <button class="text-xs bg-primary-500 text-dark-900 px-2 py-1 rounded">Cumulative</button>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="clickChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- Results Table -->
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left text-gray-400">
+                                <thead class="text-xs text-gray-300 bg-dark-700">
+                                    <tr>
+                                        <th class="px-4 py-3">Metric</th>
+                                        <th class="px-4 py-3">Control Group</th>
+                                        <th class="px-4 py-3">Treatment Group</th>
+                                        <th class="px-4 py-3">Absolute Difference</th>
+                                        <th class="px-4 py-3">Relative Improvement</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-dark-700 bg-dark-800">
+                                        <td class="px-4 py-3 font-medium">Sample Size</td>
+                                        <td class="px-4 py-3">10,000</td>
+                                        <td class="px-4 py-3">10,000</td>
+                                        <td class="px-4 py-3">-</td>
+                                        <td class="px-4 py-3">-</td>
+                                    </tr>
+                                    <tr class="border-b border-dark-700 bg-dark-800">
+                                        <td class="px-4 py-3 font-medium">Total Clicks</td>
+                                        <td class="px-4 py-3">1,989</td>
+                                        <td class="px-4 py-3 text-primary-500">6,116</td>
+                                        <td class="px-4 py-3 text-green-400">+4,127</td>
+                                        <td class="px-4 py-3 text-green-400">+207%</td>
+                                    </tr>
+                                    <tr class="border-b border-dark-700 bg-dark-800">
+                                        <td class="px-4 py-3 font-medium">Click-Through Rate</td>
+                                        <td class="px-4 py-3">19.89%</td>
+                                        <td class="px-4 py-3 text-primary-500">61.16%</td>
+                                        <td class="px-4 py-3 text-green-400">+41.27pp</td>
+                                        <td class="px-4 py-3 text-green-400">+207%</td>
+                                    </tr>
+                                    <tr class="bg-dark-800">
+                                        <td class="px-4 py-3 font-medium">95% Confidence Interval</td>
+                                        <td class="px-4 py-3">-</td>
+                                        <td class="px-4 py-3">-</td>
+                                        <td class="px-4 py-3">[39.9%, 42.6%]</td>
+                                        <td class="px-4 py-3">-</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-gray-300 mb-4">3.2 Statistical Analysis</h4>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div class="bg-dark-700 p-4 rounded-lg">
+                                <div class="flex items-center mb-3">
+                                    <div class="w-4 h-4 rounded-full bg-green-500 mr-2"></div>
+                                    <h5 class="font-bold">Statistical Significance</h5>
+                                </div>
+                                <ul class="space-y-2 text-sm">
+                                    <li class="flex justify-between">
+                                        <span class="text-gray-400">Test Statistic (Z-score):</span>
+                                        <span class="font-medium">-59.44</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span class="text-gray-400">P-value:</span>
+                                        <span class="font-medium">< 0.001</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span class="text-gray-400">Critical Value:</span>
+                                        <span class="font-medium">±1.96</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span class="text-gray-400">Result:</span>
+                                        <span class="font-bold text-green-400">Statistically Significant</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-dark-700 p-4 rounded-lg">
+                                <div class="flex items-center mb-3">
+                                    <div class="w-4 h-4 rounded-full bg-blue-500 mr-2"></div>
+                                    <h5 class="font-bold">Practical Significance</h5>
+                                </div>
+                                <ul class="space-y-2 text-sm">
+                                    <li class="flex justify-between">
+                                        <span class="text-gray-400">Observed Effect:</span>
+                                        <span class="font-medium">41.27 percentage points</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span class="text-gray-400">Minimum Detectable Effect:</span>
+                                        <span class="font-medium">10 percentage points</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span class="text-gray-400">Ratio:</span>
+                                        <span class="font-medium">4.1x above threshold</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span class="text-gray-400">Result:</span>
+                                        <span class="font-bold text-green-400">Practically Significant</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-dark-700 rounded-lg p-4">
+                            <h5 class="font-bold mb-2">Confidence Interval Visualization</h5>
+                            <div class="flex justify-center items-center h-48">
+                                <img src="confidence_interval_example.png" alt="Confidence Interval Visualization" class="max-h-40 rounded shadow-lg object-contain">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Business Impact -->
+                <section id="impact" class="bg-dark-800 rounded-xl p-6 shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-primary-500">5. Business Impact Analysis</h3>
+                        <span class="bg-dark-700 text-primary-500 text-sm font-medium px-3 py-1 rounded-full">Projections</span>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-bold text-gray-300 mb-2">5.1 Projected Impact</h4>
+                        <p class="text-gray-400 mb-4">Based on current traffic patterns and observed performance lift:</p>
+                        
+                        <div class="bg-dark-700 rounded-lg p-4 mb-4">
+                            <h5 class="font-bold text-primary-500 mb-3">Monthly Projections (Conservative Estimates)</h5>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-sm text-gray-400">Baseline Monthly Users</p>
+                                    <p class="font-medium">300,000 (estimated)</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-400">Current Monthly Clicks</p>
+                                    <p class="font-medium">~59,670 (19.89% CTR)</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-400">Projected Monthly Clicks</p>
+                                    <p class="font-medium text-primary-500">~183,480 (61.16% CTR)</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-400">Net Additional Clicks</p>
+                                    <p class="font-medium text-green-400">+123,810 (+207% increase)</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-dark-700 rounded-lg p-4">
+                            <h5 class="font-bold text-primary-500 mb-3">Annual Value Projection</h5>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <p class="text-sm text-gray-400">Additional Annual Clicks</p>
+                                    <p class="font-medium">~1.48M clicks</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-400">Estimated Value per Click</p>
+                                    <p class="font-medium">$X.XX</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-400">Potential Annual Revenue Impact</p>
+                                    <p class="font-medium text-green-400">$X.XX - $X.XX million</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-bold text-gray-300 mb-2">5.2 Risk Assessment</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-dark-700 p-4 rounded-lg">
+                                <p class="text-sm text-gray-400 mb-1">Implementation Risk</p>
+                                <p class="font-medium text-green-400">Low</p>
+                                <p class="text-xs text-gray-500">UI change only</p>
+                            </div>
+                            <div class="bg-dark-700 p-4 rounded-lg">
+                                <p class="text-sm text-gray-400 mb-1">Revenue Risk</p>
+                                <p class="font-medium text-green-400">Minimal</p>
+                                <p class="text-xs text-gray-500">Improvement is substantial</p>
+                            </div>
+                            <div class="bg-dark-700 p-4 rounded-lg">
+                                <p class="text-sm text-gray-400 mb-1">User Experience Risk</p>
+                                <p class="font-medium text-green-400">Low</p>
+                                <p class="text-xs text-gray-500">Higher engagement suggests better UX</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-gray-300 mb-2">5.3 Success Monitoring</h4>
+                        <p class="text-gray-400 mb-3">Post-implementation, monitor:</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-dark-700 px-3 py-1 rounded-full text-sm">Click-through rate trends</span>
+                            <span class="bg-dark-700 px-3 py-1 rounded-full text-sm">Conversion funnel performance</span>
+                            <span class="bg-dark-700 px-3 py-1 rounded-full text-sm">User satisfaction metrics</span>
+                            <span class="bg-dark-700 px-3 py-1 rounded-full text-sm">Page load times</span>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Recommendations -->
+                <section id="recommendations" class="bg-dark-800 rounded-xl p-6 shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-primary-500">7. Recommendations</h3>
+                        <span class="bg-dark-700 text-primary-500 text-sm font-medium px-3 py-1 rounded-full">Action Items</span>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-bold text-gray-300 mb-2">7.1 Primary Recommendation</h4>
+                        <div class="bg-green-900 bg-opacity-30 border-l-4 border-green-500 p-4 rounded-r-lg mb-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 text-2xl mr-3"></i>
+                                <div>
+                                    <h5 class="font-bold text-lg text-green-400">IMPLEMENT IMMEDIATELY</h5>
+                                    <p class="text-gray-300">The new CTA button design should be implemented across all user touchpoints immediately.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-dark-700 p-4 rounded-lg">
+                            <p class="text-gray-300 mb-3">The results demonstrate:</p>
+                            <ul class="space-y-2">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-primary-500 mt-1 mr-2"></i>
+                                    <span>Exceptional statistical significance (p < 0.001)</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-primary-500 mt-1 mr-2"></i>
+                                    <span>Massive practical significance (4x above threshold)</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-primary-500 mt-1 mr-2"></i>
+                                    <span>Low implementation risk</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-primary-500 mt-1 mr-2"></i>
+                                    <span>High business impact potential</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-gray-300 mb-2">7.2 Implementation Plan</h4>
+                        
+                        <div class="space-y-4">
+                            <div class="bg-dark-700 p-4 rounded-lg border-l-4 border-blue-500">
+                                <div class="flex items-start">
+                                    <div class="bg-blue-500 text-dark-900 font-bold rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1">1</div>
+                                    <div>
+                                        <h5 class="font-bold text-blue-400">Phase 1: Immediate Rollout (Week 1)</h5>
+                                        <ul class="list-disc list-inside text-gray-400 mt-2 space-y-1">
+                                            <li>Deploy new CTA button to 100% of users</li>
+                                            <li>Monitor system performance and error rates</li>
+                                            <li>Set up enhanced tracking for post-launch analysis</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-dark-700 p-4 rounded-lg border-l-4 border-purple-500">
+                                <div class="flex items-start">
+                                    <div class="bg-purple-500 text-dark-900 font-bold rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1">2</div>
+                                    <div>
+                                        <h5 class="font-bold text-purple-400">Phase 2: Performance Validation (Weeks 2-4)</h5>
+                                        <ul class="list-disc list-inside text-gray-400 mt-2 space-y-1">
+                                            <li>Daily monitoring of click-through rates</li>
+                                            <li>Weekly cohort analysis to detect any performance degradation</li>
+                                            <li>User feedback collection through surveys/support channels</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-dark-700 p-4 rounded-lg border-l-4 border-green-500">
+                                <div class="flex items-start">
+                                    <div class="bg-green-500 text-dark-900 font-bold rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1">3</div>
+                                    <div>
+                                        <h5 class="font-bold text-green-400">Phase 3: Extended Analysis (Months 2-3)</h5>
+                                        <ul class="list-disc list-inside text-gray-400 mt-2 space-y-1">
+                                            <li>Full conversion funnel analysis (clicks → sign-ups → purchases)</li>
+                                            <li>Segmentation analysis by user demographics, traffic source, device type</li>
+                                            <li>Long-term performance sustainability assessment</li>
+                                            <li>Revenue impact quantification</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-dark-700 p-4 rounded-lg border-l-4 border-yellow-500">
+                                <div class="flex items-start">
+                                    <div class="bg-yellow-500 text-dark-900 font-bold rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1">4</div>
+                                    <div>
+                                        <h5 class="font-bold text-yellow-400">Phase 4: Optimization Iteration (Month 4+)</h5>
+                                        <ul class="list-disc list-inside text-gray-400 mt-2 space-y-1">
+                                            <li>Further CTA optimization based on learnings</li>
+                                            <li>Cross-platform consistency validation</li>
+                                            <li>Performance benchmarking for future tests</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+        
+        <!-- Conclusion Section -->
+        <section id="conclusion" class="bg-dark-800 rounded-xl p-6 shadow-lg mt-12">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-xl font-bold text-primary-500">Conclusion</h3>
+            </div>
+            <div>
+                <p class="text-gray-300 mb-2">
+                    The A/B test results provide compelling evidence that the new CTA button design significantly outperforms the original, delivering a remarkable 207% increase in click-through rate with extremely high statistical confidence. The improvement is both statistically and practically significant, with minimal risk and substantial business impact projected. Based on these findings, immediate implementation of the new CTA is strongly recommended. Continued monitoring and iterative optimization will ensure sustained performance gains and maximize value for the business.
+                </p>
+            </div>
+        </section>
+        <!-- View Jupyter Notebook & GitHub Buttons -->
+        <div class="flex justify-center mt-12 gap-6">
+            <a href="notebook.ipynb" target="_blank" class="inline-flex items-center bg-primary-500 text-dark-900 hover:bg-primary-600 hover:text-dark-900 text-lg font-semibold px-8 py-4 rounded-xl transition shadow-lg">
+            <i class="fas fa-book-open mr-3 text-2xl"></i>
+            View Jupyter Notebook
+            </a>
+            <a href="https://github.com/BIAnalyst-Patrick/A-B-Test-on-CTA-Button-Optimization" target="_blank" class="inline-flex items-center bg-dark-700 text-primary-500 hover:bg-dark-600 hover:text-primary-400 text-lg font-semibold px-8 py-4 rounded-xl transition shadow-lg border border-primary-500">
+            <i class="fab fa-github mr-3 text-2xl"></i>
+            View All Files on GitHub
+            </a>
+        </div>
+        <!-- Footer -->
+        <footer class="mt-12 pt-8 border-t border-dark-700">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-400">Report prepared by: <span class="text-primary-500">Patrick Gichuki</span></p>
+                    <p class="text-gray-400">Contact: <span class="text-primary-500">patrickgichuki2@gmail.com</span></p>
+                </div>
+                <div class="flex space-x-4">
+                    <button class="text-gray-400 hover:text-white">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </button>
+                    <button class="text-gray-400 hover:text-white">
+                        <i class="fab fa-linkedin text-xl"></i>
+                    </button>
+                    <button class="text-gray-400 hover:text-white">
+                        <i class="fab fa-github text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            <p class="text-center text-gray-600 text-sm mt-6">© 2025 A/B Test Analytics. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Navigation active state
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        // Charts
+        const clickCtx = document.getElementById('clickChart').getContext('2d');
+        const clickChart = new Chart(clickCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Control Group', 'Treatment Group'],
+                datasets: [
+                    {
+                        label: 'No Click',
+                        data: [8011, 3884],
+                        backgroundColor: '#4B5563',
+                        borderColor: '#6B7280',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Clicked',
+                        data: [1989, 6116],
+                        backgroundColor: '#F59E0B',
+                        borderColor: '#D97706',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        stacked: true,
+                        grid: {
+                            display: false,
+                            color: '#2A2A2A'
+                        },
+                        ticks: {
+                            color: '#9CA3AF'
+                        }
+                    },
+                    y: {
+                        stacked: true,
+                        grid: {
+                            color: '#2A2A2A'
+                        },
+                        ticks: {
+                            color: '#9CA3AF'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: '#9CA3AF'
+                        }
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false
+                    }
+                },
+                animation: {
+                    duration: 1000
+                }
+            }
+        });
+        const confidenceCtx = document.getElementById('confidenceChart').getContext('2d');
+        const confidenceChart = new Chart(confidenceCtx, {
+            type: 'line',
+            data: {
+                labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
+                datasets: [
+                    {
+                        label: 'Confidence Level',
+                        data: [85, 90, 92, 95, 97, 99, 99.9],
+                        borderColor: '#F59E0B',
+                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Threshold (95%)',
+                        data: [95, 95, 95, 95, 95, 95, 95],
+                        borderColor: '#10B981',
+                        borderWidth: 1,
+                        borderDash: [5, 5],
+                        pointRadius: 0
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        grid: {
+                            display: false,
+                            color: '#2A2A2A'
+                        },
+                        ticks: {
+                            color: '#9CA3AF'
+                        }
+                    },
+                    y: {
+                        min: 80,
+                        max: 100,
+                        grid: {
+                            color: '#2A2A2A'
+                        },
+                        ticks: {
+                            color: '#9CA3AF',
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: '#9CA3AF'
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y + '%';
+                            }
+                        }
+                    },
+                    annotation: {
+                        annotations: {
+                            line1: {
+                                type: 'line',
+                                yMin: 95,
+                                yMax: 95,
+                                borderColor: 'rgb(16, 185, 129)',
+                                borderWidth: 1,
+                                borderDash: [5, 5]
+                            }
+                        }
+                    }
+                },
+                animation: {
+                    duration: 1000
+                }
+            }
+        });
+    </script>
+</body>
+</html>

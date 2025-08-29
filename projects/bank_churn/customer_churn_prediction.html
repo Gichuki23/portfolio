@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Churn Prediction - Banking Industry</title>
+        <link rel="icon" type="image/png" href="images/partoe.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/customer_churn_prediction.js"></script>
+    <link rel="stylesheet" href="css/customer_churn_prediction.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="font-sans bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm fixed w-full z-10 dark:bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-indigo-600 dark:text-indigo-400">Patrick Gichuki</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="../../index.html#home" class="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium dark:text-gray-300 dark:hover:text-indigo-400">Home</a>
+                    <a href="../../index.html#about" class="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium dark:text-gray-300 dark:hover:text-indigo-400">About</a>
+                    <a href="../../index.html#skills" class="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium dark:text-gray-300 dark:hover:text-indigo-400">Skills</a>
+                    <a href="../../index.html#projects" class="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium dark:text-gray-300 dark:hover:text-indigo-400">Projects</a>
+                    <a href="../../index.html#contact" class="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium dark:text-gray-300 dark:hover:text-indigo-400">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Spacer for fixed navbar -->
+    <div class="h-16"></div>
+    <!-- Header -->
+    <header class="gradient-bg text-white">
+        <div class="container mx-auto px-4 py-12">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-8 md:mb-0">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4">Customer Churn Prediction</h1>
+                    <p class="text-xl mb-6 opacity-90">Banking Industry Insights & Retention Strategy</p>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="bg-blue-800 text-white px-3 py-1 rounded-full text-sm">Python</span>
+                        <span class="bg-blue-800 text-white px-3 py-1 rounded-full text-sm">Streamlit</span>
+                        <span class="bg-blue-800 text-white px-3 py-1 rounded-full text-sm">Power BI</span>
+                        <span class="bg-blue-800 text-white px-3 py-1 rounded-full text-sm">SMOTE</span>
+                        <span class="bg-blue-800 text-white px-3 py-1 rounded-full text-sm">Random Forest</span>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <div class="bg-white dark:bg-gray-800 p-2 rounded-lg shadow-xl w-full max-w-md">
+                        <img src="images/Customer Churn Overview Page.png" alt="Banking Analytics" class="rounded-lg w-full h-auto">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Executive Summary -->
+    <section class="py-12 bg-white dark:bg-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">🚀 Executive Summary</h2>
+                <div class="w-20 h-1 bg-blue-500 mx-auto"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg border border-gray-200 dark:border-gray-600">
+                    <div class="text-red-500 text-4xl mb-4">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-800 dark:text-white">Problem</h3>
+                    <p class="text-gray-600 dark:text-gray-300">The bank was grappling with high customer churn, particularly in high-value customer segments. Despite a growing customer base, the bank struggled to predict which customers were at risk of leaving.</p>
+                </div>
+                
+                <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg border border-gray-200 dark:border-gray-600">
+                    <div class="text-blue-500 text-4xl mb-4">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-800 dark:text-white">Action</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Developed machine learning models (Random Forest with SMOTE) and built a Streamlit web app for real-time, interactive predictions of at-risk customers.</p>
+                </div>
+                
+                <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg border border-gray-200 dark:border-gray-600">
+                    <div class="text-green-500 text-4xl mb-4">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-800 dark:text-white">Result</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Achieved 84.67% accuracy, identified high-risk segments, and potentially saved €1.5 million in annual revenue by targeting high-balance customers.</p>
+                </div>
+            </div>
+            
+            <div class="mt-10 text-center">
+                <a href="https://customer-churn-prediction-9xadjygpa4owqrdir7g3dm.streamlit.app/" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg inline-flex items-center transition duration-300">
+                    <i class="fas fa-external-link-alt mr-2"></i> Try the Prediction App
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Statement -->
+    <section class="py-12 bg-gray-50 dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">🎯 Problem Statement</h2>
+                <div class="w-20 h-1 bg-blue-500 mx-auto"></div>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 p-6 md:p-8 rounded-lg shadow-md">
+                <div class="flex items-start mb-6">
+                    <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded-full mr-4">
+                        <i class="fas fa-question-circle text-blue-600 dark:text-blue-300 text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">Context</h3>
+                        <p class="text-gray-600 dark:text-gray-300">Customer churn in banking severely impacts profitability, especially with high-value customers. Without clear prediction methods, retention efforts were inefficient and misdirected.</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start mb-6">
+                    <div class="bg-red-100 dark:bg-red-900 p-3 rounded-full mr-4">
+                        <i class="fas fa-exclamation text-red-600 dark:text-red-300 text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">Core Issue</h3>
+                        <p class="text-gray-600 dark:text-gray-300">The bank lacked an effective strategy to predict at-risk customers, leading to unnecessary resource allocation while missing valuable high-risk customers.</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start">
+                    <div class="bg-purple-100 dark:bg-purple-900 p-3 rounded-full mr-4">
+                        <i class="fas fa-search text-purple-600 dark:text-purple-300 text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">Key Questions</h3>
+                        <ul class="list-disc pl-5 text-gray-600 dark:text-gray-300 space-y-2">
+                            <li>Which customer segments have the highest churn rates?</li>
+                            <li>What are the primary factors driving churn?</li>
+                            <li>How can the bank prioritize retention for high-value customers?</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Objectives & Key Metrics -->
+    <section class="py-12 bg-white dark:bg-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">📈 Objectives & Key Metrics</h2>
+                <div class="w-20 h-1 bg-blue-500 mx-auto"></div>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white dark:bg-gray-700 rounded-lg overflow-hidden">
+                    <thead class="bg-gray-100 dark:bg-gray-600">
+                        <tr>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-700 dark:text-white">Objective</th>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-700 dark:text-white">Metric Tracked</th>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-700 dark:text-white">Result Achieved</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 dark:divide-gray-600">
+                        <tr>
+                            <td class="py-4 px-4 text-gray-600 dark:text-gray-300">Identify churn predictors</td>
+                            <td class="py-4 px-4 text-gray-600 dark:text-gray-300">Accuracy, AUC-ROC</td>
+                            <td class="py-4 px-4 text-gray-600 dark:text-gray-300 font-medium">Achieved <span class="text-green-600 dark:text-green-400">84.67%</span> accuracy with Random Forest</td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 px-4 text-gray-600 dark:text-gray-300">Prioritize retention for high-risk customers</td>
+                            <td class="py-4 px-4 text-gray-600 dark:text-gray-300">Churn rate, false positives</td>
+                            <td class="py-4 px-4 text-gray-600 dark:text-gray-300 font-medium">Reduced false positives to <span class="text-green-600 dark:text-green-400">244</span>, improving retention targeting</td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 px-4 text-gray-600 dark:text-gray-300">Improve model precision</td>
+                            <td class="py-4 px-4 text-gray-600 dark:text-gray-300">F1-Score</td>
+                            <td class="py-4 px-4 text-gray-600 dark:text-gray-300 font-medium">Achieved an <span class="text-green-600 dark:text-green-400">F1-Score of 0.8969</span> after model calibration</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Overview -->
+    <section class="py-12 bg-gray-50 dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">📂 Data Overview</h2>
+                <div class="w-20 h-1 bg-blue-500 mx-auto"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8 reverse-columns">
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Data Sources</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-6">The dataset consists of 10,000 rows representing bank customers, sourced from Kaggle.</p>
+                    
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Key Variables</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs font-semibold px-2.5 py-0.5 rounded mr-3">1</span>
+                            <span class="text-gray-600 dark:text-gray-300"><strong>Credit Score:</strong> The customer's credit score</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs font-semibold px-2.5 py-0.5 rounded mr-3">2</span>
+                            <span class="text-gray-600 dark:text-gray-300"><strong>Balance:</strong> The account balance of the customer</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs font-semibold px-2.5 py-0.5 rounded mr-3">3</span>
+                            <span class="text-gray-600 dark:text-gray-300"><strong>Number of Products:</strong> Number of banking products held</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs font-semibold px-2.5 py-0.5 rounded mr-3">4</span>
+                            <span class="text-gray-600 dark:text-gray-300"><strong>Exited:</strong> Target variable indicating churn (1) or not (0)</span>
+                        </li>
+                    </ul>
+                    
+                    <h3 class="text-xl font-semibold mt-6 mb-4 text-gray-800 dark:text-white">Data Challenges</h3>
+                    <div class="bg-yellow-50 dark:bg-yellow-900 border-l-4 border-yellow-400 dark:border-yellow-600 p-4">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-exclamation-triangle text-yellow-500 dark:text-yellow-300"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-yellow-700 dark:text-yellow-200">
+                                    <strong>Class Imbalance:</strong> Churned customers represented only 20% of the dataset. SMOTE was applied to generate synthetic samples of the minority class.
+                                </p>
+                                <img src="images/distribution.png" alt="Class Imbalance Visualization" class="mt-4 rounded-lg w-full h-auto object-contain">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Data Distribution</h3>
+                    <div class="chart-container">
+                        <img src="images/distribution.png" alt="Data Distribution" class="w-full h-full object-contain">
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold mt-6 mb-4 text-gray-800 dark:text-white">Correlation Matrix</h3>
+                    <div class="chart-container">
+                        <img src="images/corelation_matrix.png" alt="Correlation Matrix" class="w-full h-full object-contain">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Methodology -->
+    <section class="py-12 bg-white dark:bg-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">🔧 Methodology</h2>
+                <div class="w-20 h-1 bg-blue-500 mx-auto"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg border border-gray-200 dark:border-gray-600">
+                    <div class="text-purple-500 text-4xl mb-4">
+                        <i class="fas fa-broom"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-800 dark:text-white">Data Cleaning</h3>
+                    <ul class="space-y-2 text-gray-600 dark:text-gray-300">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 dark:text-green-400 mt-1 mr-2"></i>
+                            <span><strong>Standardization:</strong> Categorical variables encoded with one-hot encoding</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 dark:text-green-400 mt-1 mr-2"></i>
+                            <span><strong>Normalization:</strong> Continuous features scaled using StandardScaler</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg border border-gray-200 dark:border-gray-600">
+                    <div class="text-blue-500 text-4xl mb-4">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-800 dark:text-white">Analysis Techniques</h3>
+                    <ul class="space-y-2 text-gray-600 dark:text-gray-300">
+                        <li class="flex items-start">
+                            <i class="fas fa-project-diagram text-blue-500 dark:text-blue-400 mt-1 mr-2"></i>
+                            <span><strong>Random Forest Classifier</strong> with GridSearchCV for hyperparameter tuning</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-balance-scale text-blue-500 dark:text-blue-400 mt-1 mr-2"></i>
+                            <span><strong>SMOTE</strong> for class imbalance correction</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg border border-gray-200 dark:border-gray-600">
+                    <div class="text-green-500 text-4xl mb-4">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-800 dark:text-white">Tools</h3>
+                    <ul class="space-y-2 text-gray-600 dark:text-gray-300">
+                        <li class="flex items-start">
+                            <i class="fab fa-python text-green-500 dark:text-green-400 mt-1 mr-2"></i>
+                            <span><strong>Python</strong> with scikit-learn, SMOTE, GridSearchCV</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-globe text-green-500 dark:text-green-400 mt-1 mr-2"></i>
+                            <span><strong>Streamlit</strong> for interactive web app</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-chart-pie text-green-500 dark:text-green-400 mt-1 mr-2"></i>
+                            <span><strong>Power BI</strong> for visualization</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-10 bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Model Development Timeline</h3>
+                <div class="space-y-8 relative">
+                    <div class="timeline-item relative pl-8">
+                        <div class="absolute left-0 top-0 w-4 h-4 bg-blue-500 rounded-full"></div>
+                        <div class="bg-gray-50 dark:bg-gray-600 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 dark:text-white">Data Collection & Cleaning</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-300">Gathered 10,000 customer records and performed standardization/normalization</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item relative pl-8">
+                        <div class="absolute left-0 top-0 w-4 h-4 bg-blue-500 rounded-full"></div>
+                        <div class="bg-gray-50 dark:bg-gray-600 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 dark:text-white">Exploratory Analysis</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-300">Identified key patterns and correlations in the data</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item relative pl-8">
+                        <div class="absolute left-0 top-0 w-4 h-4 bg-blue-500 rounded-full"></div>
+                        <div class="bg-gray-50 dark:bg-gray-600 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 dark:text-white">Model Selection</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-300">Evaluated multiple algorithms and selected Random Forest</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item relative pl-8">
+                        <div class="absolute left-0 top-0 w-4 h-4 bg-blue-500 rounded-full"></div>
+                        <div class="bg-gray-50 dark:bg-gray-600 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 dark:text-white">Hyperparameter Tuning</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-300">Optimized parameters using GridSearchCV</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item relative pl-8">
+                        <div class="absolute left-0 top-0 w-4 h-4 bg-blue-500 rounded-full"></div>
+                        <div class="bg-gray-50 dark:bg-gray-600 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 dark:text-white">Deployment</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-300">Built Streamlit app for real-time predictions</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Model Selection -->
+    <section class="py-12 bg-gray-50 dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">📊 Model Selection and Evaluation</h2>
+                <div class="w-20 h-1 bg-blue-500 mx-auto"></div>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md mb-8">
+                <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Model Performance Comparison</h3>
+                
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white dark:bg-gray-700">
+                        <thead class="bg-gray-100 dark:bg-gray-600">
+                            <tr>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-700 dark:text-white">Model</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-700 dark:text-white">Accuracy</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-700 dark:text-white">Precision</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-700 dark:text-white">Recall</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-700 dark:text-white">F1-Score</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-600">
+                            <tr>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">Logistic Regression</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">70.21%</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">68%</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">66.7%</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">-</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">Decision Tree</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">75.50%</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">74%</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">72.5%</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">-</td>
+                            </tr>
+                            <tr class="bg-blue-50 dark:bg-blue-900">
+                                <td class="py-3 px-4 font-medium text-blue-800 dark:text-blue-200">Random Forest</td>
+                                <td class="py-3 px-4 font-medium text-blue-800 dark:text-blue-200">84.30%</td>
+                                <td class="py-3 px-4 font-medium text-blue-800 dark:text-blue-200">82.4%</td>
+                                <td class="py-3 px-4 font-medium text-blue-800 dark:text-blue-200">87.5%</td>
+                                <td class="py-3 px-4 font-medium text-blue-800 dark:text-blue-200">85.0%</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">XGBoost</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">84.79%</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">83.5%</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">88.2%</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">85.7%</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">ANN</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">79.76%</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">-</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">75.5%</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">-</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">KNN</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">75.55%</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">-</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">-</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">73.4%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Final Model Selection</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Based on evaluation, <span class="font-semibold text-blue-600 dark:text-blue-400">Random Forest</span> was selected for its balanced performance with <span class="font-semibold">84.30% accuracy</span>, excellent recall (87.5%), and good precision (82.4%).</p>
+                    
+                    <h4 class="font-semibold text-gray-800 dark:text-white mb-2">Hyperparameter Tuning</h4>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Using GridSearchCV, the following optimal parameters were selected:</p>
+                    
+                    <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                        <ul class="grid grid-cols-2 gap-2 text-gray-600 dark:text-gray-300">
+                            <li class="flex items-center">
+                                <i class="fas fa-cog text-blue-500 dark:text-blue-400 mr-2"></i>
+                                <span><strong>n_estimators:</strong> 300</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-cog text-blue-500 dark:text-blue-400 mr-2"></i>
+                                <span><strong>min_samples_split:</strong> 2</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-cog text-blue-500 dark:text-blue-400 mr-2"></i>
+                                <span><strong>min_samples_leaf:</strong> 1</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-cog text-blue-500 dark:text-blue-400 mr-2"></i>
+                                <span><strong>max_depth:</strong> None</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Model Performance</h3>
+                    <div class="chart-container mb-4">
+                        <img src="images/model_score.png" alt="Model Performance" class="w-full h-full object-contain">
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300">The final model achieved <span class="font-semibold text-green-600 dark:text-green-400">84.67% accuracy</span> and <span class="font-semibold text-green-600 dark:text-green-400">F1-score of 0.8969</span>, optimizing the trade-off between precision and recall.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Insights -->
+    <section class="py-12 bg-white dark:bg-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">💡 Key Insights</h2>
+                <div class="w-20 h-1 bg-blue-500 mx-auto"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="insight-card bg-gray-50 dark:bg-gray-700 p-6 rounded-lg border border-gray-200 dark:border-gray-600 transition duration-300">
+                    <div class="text-orange-500 text-4xl mb-4">
+                        <i class="fas fa-user-friends"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-800 dark:text-white">High Churn in Middle-Aged Customers</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-3"><strong>What:</strong> Middle-aged customers (45–64 years) showed the highest churn rates.</p>
+                    <p class="text-gray-600 dark:text-gray-300 mb-3"><strong>So What:</strong> The bank risks losing a significant portion of its customer base if proactive measures aren't taken.</p>
+                    <div class="chart-container mt-4">
+                        <img src="images/agechurn.png" alt="Churn by Age" class="w-full h-full object-contain">
+                    </div>
+                </div>
+                
+                <div class="insight-card bg-gray-50 dark:bg-gray-700 p-6 rounded-lg border border-gray-200 dark:border-gray-600 transition duration-300">
+                    <div class="text-green-500 text-4xl mb-4">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-800 dark:text-white">Account Balance is a Strong Predictor</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-3"><strong>What:</strong> Customers with higher account balances (>€200K) exhibited the highest churn likelihood.</p>
+                    <p class="text-gray-600 dark:text-gray-300 mb-3"><strong>So What:</strong> Focusing on high-balance customers is crucial for retention, potentially saving €1.5 million annually.</p>
+                    <div class="chart-container mt-4">
+                        <img src="images/churnacc.png" alt="Churn by Balance" class="w-full h-full object-contain">
+                    </div>
+                </div>
+                
+                <div class="insight-card bg-gray-50 dark:bg-gray-700 p-6 rounded-lg border border-gray-200 dark:border-gray-600 transition duration-300">
+                    <div class="text-blue-500 text-4xl mb-4">
+                        <i class="fas fa-globe-europe"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-800 dark:text-white">Geography Matters</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-3"><strong>What:</strong> France shows a higher churn rate compared to Germany and Spain.</p>
+                    <p class="text-gray-600 dark:text-gray-300 mb-3"><strong>So What:</strong> Tailored retention strategies specific to France can help reduce churn in this important market.</p>
+                    <div class="chart-container mt-4">
+                        <img src="images/country_churn.png" alt="Churn by Geography" class="w-full h-full object-contain">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recommendations -->
+    <section class="py-12 bg-gray-50 dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">✅ Recommendations & Business Impact</h2>
+                <div class="w-20 h-1 bg-blue-500 mx-auto"></div>
+            </div>
+            
+            <div class="space-y-6">
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                    <div class="flex items-start">
+                        <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded-full mr-4">
+                            <span class="text-blue-800 dark:text-blue-200 font-bold">1</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">Launch Retention Campaign for High-Balance Customers</h3>
+                            <p class="text-gray-600 dark:text-gray-300 mb-3">Prioritize retention efforts for customers with balances above €200K by offering loyalty rewards and personalized services.</p>
+                            <div class="bg-green-50 dark:bg-green-900 border-l-4 border-green-500 dark:border-green-400 p-4">
+                                <p class="text-green-700 dark:text-green-200 font-medium">Potential Value: 10% churn reduction could save €1.5 million annually</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                    <div class="flex items-start">
+                        <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded-full mr-4">
+                            <span class="text-blue-800 dark:text-blue-200 font-bold">2</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">Focus on Middle-Aged Customers (45–64) with Tailored Incentives</h3>
+                            <p class="text-gray-600 dark:text-gray-300 mb-3">Target this demographic with personalized incentives like lower fees and exclusive investment offers.</p>
+                            <div class="bg-green-50 dark:bg-green-900 border-l-4 border-green-500 dark:border-green-400 p-4">
+                                <p class="text-green-700 dark:text-green-200 font-medium">Potential Value: 5% reduction in churn could save €500,000 annually</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                    <div class="flex items-start">
+                        <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded-full mr-4">
+                            <span class="text-blue-800 dark:text-blue-200 font-bold">3</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">Region-Specific Retention Campaigns for German Customers</h3>
+                            <p class="text-gray-600 dark:text-gray-300 mb-3">Implement France-focused retention campaigns with region-specific offers.</p>
+                            <div class="bg-green-50 dark:bg-green-900 border-l-4 border-green-500 dark:border-green-400 p-4">
+                                <p class="text-green-700 dark:text-green-200 font-medium">Potential Value: 8% churn reduction in France could save substantial revenue</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                    <div class="flex items-start">
+                        <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded-full mr-4">
+                            <span class="text-blue-800 dark:text-blue-200 font-bold">4</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">Refine Model Calibration to Reduce False Positives</h3>
+                            <p class="text-gray-600 dark:text-gray-300 mb-3">Optimize the model to reduce the 244 false positives, improving resource allocation.</p>
+                            <div class="bg-green-50 dark:bg-green-900 border-l-4 border-green-500 dark:border-green-400 p-4">
+                                <p class="text-green-700 dark:text-green-200 font-medium">Potential Value: Save 15% in retention-related costs</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                    <div class="flex items-start">
+                        <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded-full mr-4">
+                            <span class="text-blue-800 dark:text-blue-200 font-bold">5</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">Implement Real-Time Churn Prediction for Proactive Retention</h3>
+                            <p class="text-gray-600 dark:text-gray-300 mb-3">Monitor customer behaviors and predict churn in real-time to enable timely interventions.</p>
+                            <div class="bg-green-50 dark:bg-green-900 border-l-4 border-green-500 dark:border-green-400 p-4">
+                                <p class="text-green-700 dark:text-green-200 font-medium">Potential Value: 5% reduction in churn could save €500,000 annually</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-10 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Business Impact Summary</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white dark:bg-gray-700">
+                        <thead class="bg-gray-100 dark:bg-gray-600">
+                            <tr>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-700 dark:text-white">Priority</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-700 dark:text-white">Recommendation</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-700 dark:text-white">Expected Impact</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-700 dark:text-white">Owner</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-600">
+                            <tr>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300 font-medium">High</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">Retention campaign for high-balance customers</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">Reduce churn by 10% in high-value segments</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">Marketing Team</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300 font-medium">Medium</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">Focus on middle-aged customers</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">Reduce churn by 5% in this demographic</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">Customer Success</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300 font-medium">High</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">Region-specific campaigns for France</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">Reduce churn by 8% in France</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">Marketing/Regional Teams</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300 font-medium">Low</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">Refine model calibration</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">Save 15% in retention costs</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">Data Science Team</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300 font-medium">High</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">Real-time churn prediction</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">Reduce churn by 5% through timely interventions</td>
+                                <td class="py-3 px-4 text-gray-600 dark:text-gray-300">Technology & Operations</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Caveats & Next Steps -->
+    <section class="py-12 bg-white dark:bg-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">📉 Caveats & Next Steps</h2>
+                <div class="w-20 h-1 bg-blue-500 mx-auto"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg border border-gray-200 dark:border-gray-600">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Caveats</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-yellow-100 dark:bg-yellow-900 p-2 rounded-full mr-3">
+                                <i class="fas fa-exclamation text-yellow-600 dark:text-yellow-300"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white">Limited Features</h4>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm">Current model uses demographic and account data. Adding behavioral features could enhance accuracy.</p>
+                            </div>
+                        </div>
+                                                
+                        <div class="flex items-start">
+                            <div class="bg-yellow-100 dark:bg-yellow-900 p-2 rounded-full mr-3">
+                                <i class="fas fa-exclamation text-yellow-600 dark:text-yellow-300"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white">Class Imbalance</h4>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm">SMOTE was applied but model may still be slightly biased toward majority class.</p>
+                            </div>
+                        </div>
+                                                
+                        <div class="flex items-start">
+                            <div class="bg-yellow-100 dark:bg-yellow-900 p-2 rounded-full mr-3">
+                                <i class="fas fa-exclamation text-yellow-600 dark:text-yellow-300"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white">External Factors</h4>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm">Model trained on historical data may not account for current market shifts.</p>
+                            </div>
+                        </div>
+                                                
+                        <div class="flex items-start">
+                            <div class="bg-yellow-100 dark:bg-yellow-900 p-2 rounded-full mr-3">
+                                <i class="fas fa-exclamation text-yellow-600 dark:text-yellow-300"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white">Regional Differences</h4>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm">Geographic differences considered but not deeply modeled.</p>
+                            </div>
+                        </div>
+                                                
+                        <div class="flex items-start">
+                            <div class="bg-yellow-100 dark:bg-yellow-900 p-2 rounded-full mr-3">
+                                <i class="fas fa-exclamation text-yellow-600 dark:text-yellow-300"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white">Interpretability</h4>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm">Random Forests are powerful but non-interpretable.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg border border-gray-200 dark:border-gray-600">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Next Steps</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-full mr-3">
+                                <span class="text-blue-600 dark:text-blue-200 font-bold">1</span>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white">Incorporate Behavioral Features</h4>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm">Add transaction frequency and customer interaction history.</p>
+                            </div>
+                        </div>
+                                                
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-full mr-3">
+                                <span class="text-blue-600 dark:text-blue-200 font-bold">2</span>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white">Refine with Cost-Sensitive Learning</h4>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm">Use Balanced Random Forest to reduce bias toward majority class.</p>
+                            </div>
+                        </div>
+                                                
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-full mr-3">
+                                <span class="text-blue-600 dark:text-blue-200 font-bold">3</span>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white">Retrain the Model Regularly</h4>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm">Re-train with updated data quarterly to adapt to new trends.</p>
+                            </div>
+                        </div>
+                                                
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-full mr-3">
+                                <span class="text-blue-600 dark:text-blue-200 font-bold">4</span>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white">Deploy Region-Specific Strategies</h4>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm">Implement tailored strategies for high-risk regions like France.</p>
+                            </div>
+                        </div>
+                                                
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-full mr-3">
+                                <span class="text-blue-600 dark:text-blue-200 font-bold">5</span>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white">Improve Model Interpretability</h4>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm">Use SHAP or LIME for explainable insights.</p>
+                            </div>
+                        </div>
+                                                
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-full mr-3">
+                                <span class="text-blue-600 dark:text-blue-200 font-bold">6</span>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white">Implement Real-Time Prediction</h4>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm">Integrate predictions into real-time CRM systems.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analysis Files & Notebooks -->
+    <section class="py-12 bg-white dark:bg-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">📚 Analysis Files & Notebooks</h2>
+                <div class="w-20 h-1 bg-blue-500 mx-auto"></div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg border border-gray-200 dark:border-gray-600">
+                    <h3 class="text-xl font-semibold mb-3 text-gray-800 dark:text-white">GitHub Repository</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Access all source code, notebooks, and data files:</p>
+                    <a href="https://github.com/BIAnalyst-Patrick/Customer-Churn-Prediction" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg inline-flex items-center transition duration-300">
+                        <i class="fab fa-github mr-2"></i> View on GitHub
+                    </a>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg border border-gray-200 dark:border-gray-600">
+                    <h3 class="text-xl font-semibold mb-3 text-gray-800 dark:text-white">Jupyter Notebook</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">View the complete analysis and model development in a single notebook:</p>
+                    <a href="Bank_Churn.html" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg inline-flex items-center transition duration-300">
+                        <i class="fas fa-book mr-2"></i> View Jupyter Notebook
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboards Section -->
+    <section class="py-12 bg-white dark:bg-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">📊 Dashboards</h2>
+                <div class="w-20 h-1 bg-blue-500 mx-auto"></div>
+                <p class="text-gray-600 dark:text-gray-300 mt-4">Explore interactive dashboards created for customer churn analysis and business insights.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Churn Overview Dashboard</h3>
+                    <img src="images/Customer Churn Overview Page.png" alt="Churn Overview Dashboard" class="rounded-lg w-full h-auto mb-4">
+                    <p class="text-gray-600 dark:text-gray-300">This dashboard provides a summary of churn rates, key segments, and overall business impact.</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Retention Strategy Dashboard</h3>
+                    <img src="images/Customer Churn Prediction Page.png" alt="Retention Strategy Dashboard" class="rounded-lg w-full h-auto mb-4">
+                    <p class="text-gray-600 dark:text-gray-300">This dashboard visualizes retention strategies, segment targeting, and predicted savings.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="gradient-bg text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-xl font-bold mb-2">Customer Churn Prediction</h3>
+                    <p class="opacity-80">Banking Industry Insights & Retention Strategy</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-white hover:text-blue-200 transition duration-300">
+                        <i class="fab fa-github text-2xl"></i>
+                    </a>
+                    <a href="#" class="text-white hover:text-blue-200 transition duration-300">
+                        <i class="fab fa-linkedin text-2xl"></i>
+                    </a>
+                    <a href="#" class="text-white hover:text-blue-200 transition duration-300">
+                        <i class="fab fa-twitter text-2xl"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="border-t border-blue-400 mt-6 pt-6 text-center opacity-80 text-sm">
+                <p>© 2025 Customer Churn Prediction Project. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple animation for elements when they come into view
+        document.addEventListener('DOMContentLoaded', function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fadeIn');
+                    }
+                });
+            }, {threshold: 0.1});
+
+            document.querySelectorAll('.insight-card, .timeline-item').forEach(card => {
+                observer.observe(card);
+                card.style.opacity = '0';
+                card.style.transition = 'opacity 0.5s ease, transform 0.3s ease';
+                card.classList.add('animate-fadeIn');
+            });
+
+            // Add animation class
+            const style = document.createElement('style');
+            style.textContent = `
+                .animate-fadeIn {
+                    animation: fadeIn 0.5s forwards;
+                }
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(20px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Theme switcher button
+            const themeToggle = document.createElement('button');
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            themeToggle.className = 'fixed bottom-6 right-6 bg-gray-800 dark:bg-gray-200 text-white dark:text-gray-800 p-3 rounded-full shadow-lg z-50';
+            themeToggle.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                if (document.documentElement.classList.contains('dark')) {
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                    themeToggle.className = 'fixed bottom-6 right-6 bg-gray-200 text-gray-800 p-3 rounded-full shadow-lg z-50';
+                } else {
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                    themeToggle.className = 'fixed bottom-6 right-6 bg-gray-800 text-white p-3 rounded-full shadow-lg z-50';
+                }
+            });
+            document.body.appendChild(themeToggle);
+        });
+    </script>
+</body>
+</html>

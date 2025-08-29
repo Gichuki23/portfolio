@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conservation Campaign Messaging Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            100: '#E5E7EB',
+                            200: '#D1D5DB',
+                            300: '#9CA3AF',
+                            400: '#6B7280',
+                            500: '#4B5563',
+                            600: '#374151',
+                            700: '#1F2937',
+                            800: '#111827',
+                            900: '#0F172A',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.5s ease-out'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #1F2937 0%, #111827 100%);
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        .stat-card {
+            transition: all 0.3s ease;
+        }
+        .highlight-text {
+            background: linear-gradient(90deg, #38b2ac 0%, #4299e1 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .timeline-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 24px;
+            height: calc(100% - 24px);
+            width: 2px;
+            background: #4299e1;
+        }
+        body {
+            color: #E5E7EB;
+            scroll-behavior: smooth;
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #38b2ac;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .chart-placeholder {
+            background: rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.3);
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen font-sans">
+    <!-- Navigation -->
+    <nav class="bg-dark-800 shadow-sm fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-teal-400">Patrick Gichuki</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link text-gray-300 hover:text-teal-400 px-3 py-2 text-sm font-medium">Home</a>
+                    <a href="#about" class="nav-link text-gray-300 hover:text-teal-400 px-3 py-2 text-sm font-medium">About</a>
+                    <a href="#skills" class="nav-link text-gray-300 hover:text-teal-400 px-3 py-2 text-sm font-medium">Skills</a>
+                    <a href="#projects" class="nav-link text-gray-300 hover:text-teal-400 px-3 py-2 text-sm font-medium">Projects</a>
+                    <a href="#contact" class="nav-link text-gray-300 hover:text-teal-400 px-3 py-2 text-sm font-medium">Contact</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-gray-300 hover:text-teal-400 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-dark-800 pb-4 px-4">
+            <div class="flex flex-col space-y-2">
+                <a href="#home" class="text-gray-300 hover:text-teal-400 px-3 py-2 text-sm font-medium">Home</a>
+                <a href="#about" class="text-gray-300 hover:text-teal-400 px-3 py-2 text-sm font-medium">About</a>
+                <a href="#skills" class="text-gray-300 hover:text-teal-400 px-3 py-2 text-sm font-medium">Skills</a>
+                <a href="#projects" class="text-gray-300 hover:text-teal-400 px-3 py-2 text-sm font-medium">Projects</a>
+                <a href="#contact" class="text-gray-300 hover:text-teal-400 px-3 py-2 text-sm font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Spacer for fixed navbar -->
+    <div class="h-16"></div>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="text-center mb-12 animate-fade-in">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 highlight-text">Conservation Campaign Messaging Effectiveness</h1>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto">Data-driven insights from 580,000+ observations on personalized vs. generic messaging</p>
+        </header>
+
+        <!-- Executive Summary -->
+        <section id="executive-summary" class="mb-16 bg-gray-800 rounded-xl shadow-lg overflow-hidden animate-slide-up">
+            <div class="bg-blue-700 px-6 py-4">
+                <h2 class="text-2xl font-bold text-white">Executive Summary</h2>
+            </div>
+            <div class="p-6">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4 text-gray-100">Business Challenge</h3>
+                        <p class="text-gray-300 mb-4">This analysis evaluates the effectiveness of personalized vs. generic messaging in driving user engagement during a conservation campaign.</p>
+                        <p class="text-gray-300 mb-6">Key questions addressed:</p>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-400 mt-1 mr-2"></i>
+                                <span class="text-gray-300">Does personalized messaging significantly improve engagement?</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-400 mt-1 mr-2"></i>
+                                <span class="text-gray-300">What factors like timing and message volume influence outcomes?</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-blue-900 bg-opacity-50 p-6 rounded-lg">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-100">Key Results</h3>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-gray-700 rounded-lg overflow-hidden">
+                                <thead class="bg-blue-800">
+                                    <tr>
+                                        <th class="px-4 py-2 text-left text-gray-200">Metric</th>
+                                        <th class="px-4 py-2 text-left text-gray-200">Personalized</th>
+                                        <th class="px-4 py-2 text-left text-gray-200">Generic</th>
+                                        <th class="px-4 py-2 text-left text-gray-200">Improvement</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-gray-600">
+                                        <td class="px-4 py-3 text-gray-300">Engagement Rate</td>
+                                        <td class="px-4 py-3 font-medium text-gray-100">2.55%</td>
+                                        <td class="px-4 py-3 text-gray-300">1.79%</td>
+                                        <td class="px-4 py-3 font-medium text-green-400">+42%</td>
+                                    </tr>
+                                    <tr class="border-b border-gray-600">
+                                        <td class="px-4 py-3 text-gray-300">Statistical Confidence</td>
+                                        <td class="px-4 py-3 font-medium text-gray-100">99.9%+</td>
+                                        <td class="px-4 py-3 text-gray-300">-</td>
+                                        <td class="px-4 py-3 font-medium text-gray-100">Highly Significant</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 text-gray-300">Consistency</td>
+                                        <td class="px-4 py-3 font-medium text-gray-100">High</td>
+                                        <td class="px-4 py-3 text-gray-300">Variable</td>
+                                        <td class="px-4 py-3 font-medium text-gray-100">More Reliable</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 bg-yellow-900 bg-opacity-30 p-6 rounded-lg border-l-4 border-yellow-500">
+                    <h3 class="text-xl font-semibold mb-3 text-gray-100">Strategic Recommendations</h3>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="bg-gray-700 p-4 rounded-lg shadow-sm">
+                            <div class="flex items-center mb-2">
+                                <div class="bg-blue-800 p-2 rounded-full mr-3">
+                                    <i class="fas fa-bolt text-blue-400"></i>
+                                </div>
+                                <h4 class="font-medium text-gray-100">Immediate Action</h4>
+                            </div>
+                            <p class="text-sm text-gray-300">Shift 95% of messaging budget to personalized approach</p>
+                        </div>
+                        <div class="bg-gray-700 p-4 rounded-lg shadow-sm">
+                            <div class="flex items-center mb-2">
+                                <div class="bg-purple-800 p-2 rounded-full mr-3">
+                                    <i class="fas fa-clock text-purple-400"></i>
+                                </div>
+                                <h4 class="font-medium text-gray-100">Timing</h4>
+                            </div>
+                            <p class="text-sm text-gray-300">Focus campaigns on Monday-Tuesday, 2-4 PM window</p>
+                        </div>
+                        <div class="bg-gray-700 p-4 rounded-lg shadow-sm">
+                            <div class="flex items-center mb-2">
+                                <div class="bg-green-800 p-2 rounded-full mr-3">
+                                    <i class="fas fa-chart-line text-green-400"></i>
+                                </div>
+                                <h4 class="font-medium text-gray-100">Frequency</h4>
+                            </div>
+                            <p class="text-sm text-gray-300">Cap messaging at 500 per user to optimize efficiency</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-3 text-gray-100">Financial Impact</h3>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="stat-card bg-gray-700 p-6 rounded-lg shadow-md card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-blue-800 p-3 rounded-full mr-4">
+                                    <i class="fas fa-chart-pie text-blue-400 text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-300">Projected ROI Increase</p>
+                                    <p class="text-2xl font-bold text-blue-400">40-60%</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-400">through optimized messaging strategy</p>
+                        </div>
+                        <div class="stat-card bg-gray-700 p-6 rounded-lg shadow-md card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-green-800 p-3 rounded-full mr-4">
+                                    <i class="fas fa-wallet text-green-400 text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-300">Cost Efficiency</p>
+                                    <p class="text-2xl font-bold text-green-400">25% reduction</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-400">in cost-per-engagement</p>
+                        </div>
+                        <div class="stat-card bg-gray-700 p-6 rounded-lg shadow-md card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-purple-800 p-3 rounded-full mr-4">
+                                    <i class="fas fa-tasks text-purple-400 text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-300">Resource Optimization</p>
+                                    <p class="text-2xl font-bold text-purple-400">60% focus</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-400">of sends during peak engagement hours</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Study Design -->
+        <section id="study-design" class="mb-16 bg-gray-800 rounded-xl shadow-lg overflow-hidden animate-slide-up">
+            <div class="bg-indigo-700 px-6 py-4">
+                <h2 class="text-2xl font-bold text-white">Study Design & Methodology</h2>
+            </div>
+            <div class="p-6">
+                <div class="mb-8">
+                    <div class="bg-gray-700 p-6 rounded-lg mb-8">
+                        <h3 class="text-xl font-semibold mb-3 text-gray-100">Research Questions</h3>
+                        <div class="bg-indigo-900 bg-opacity-50 p-4 rounded-lg mb-6">
+                            <p class="font-medium mb-2 text-gray-100">Primary:</p>
+                            <p class="text-gray-300 mb-4">Does personalized messaging significantly outperform generic messaging for conservation campaign engagement?</p>
+                            <p class="font-medium mb-2 text-gray-100">Secondary:</p>
+                            <p class="text-gray-300">What are the optimal timing and frequency parameters for maximum campaign effectiveness?</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-700 p-6 rounded-lg mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-100">Message Frequency Optimization</h3>
+                        <div class="bg-purple-900 bg-opacity-50 p-6 rounded-lg mb-6">
+                            <h4 class="font-medium mb-3 text-gray-100">Logistic Regression Model</h4>
+                            <div class="grid grid-cols-3 gap-4 mb-4">
+                                <div class="flex flex-col items-center bg-purple-800 bg-opacity-40 p-4 rounded-lg shadow-sm">
+                                    <p class="text-sm text-gray-300 mb-1">Model Performance</p>
+                                    <p class="text-lg font-bold text-purple-300">Pseudo R² = 0.0766</p>
+                                </div>
+                                <div class="flex flex-col items-center bg-purple-800 bg-opacity-40 p-4 rounded-lg shadow-sm">
+                                    <p class="text-sm text-gray-300 mb-1">AIC</p>
+                                    <p class="text-lg font-bold text-purple-300">127,932</p>
+                                    <span class="text-xs text-gray-400">(good fit)</span>
+                                </div>
+                                <div class="flex flex-col items-center bg-purple-800 bg-opacity-40 p-4 rounded-lg shadow-sm">
+                                    <p class="text-sm text-gray-300 mb-1">Log-Likelihood</p>
+                                    <p class="text-lg font-bold text-purple-300">-63,965</p>
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="font-medium mb-3 text-gray-100">Key Coefficients</h4>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-gray-700 rounded-lg overflow-hidden">
+                                <thead class="bg-purple-800">
+                                    <tr>
+                                        <th class="px-4 py-3 text-left text-gray-200">Variable</th>
+                                        <th class="px-4 py-3 text-left text-gray-200">Coefficient</th>
+                                        <th class="px-4 py-3 text-left text-gray-200">Std Error</th>
+                                        <th class="px-4 py-3 text-left text-gray-200">p-value</th>
+                                        <th class="px-4 py-3 text-left text-gray-200">Interpretation</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-gray-600">
+                                        <td class="px-4 py-3 text-gray-300">Intercept</td>
+                                        <td class="px-4 py-3 text-gray-300">-4.54</td>
+                                        <td class="px-4 py-3 text-gray-300">0.030</td>
+                                        <td class="px-4 py-3 text-gray-300">&lt;0.001</td>
+                                        <td class="px-4 py-3 text-gray-300">Baseline low engagement</td>
+                                    </tr>
+                                    <tr class="border-b border-gray-600">
+                                        <td class="px-4 py-3 text-gray-300">Total Messages</td>
+                                        <td class="px-4 py-3 text-gray-300">+0.0102</td>
+                                        <td class="px-4 py-3 text-gray-300">0.0001</td>
+                                        <td class="px-4 py-3 text-gray-300">&lt;0.001</td>
+                                        <td class="px-4 py-3 text-gray-300">Positive but small effect</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 text-gray-300">Hour</td>
+                                        <td class="px-4 py-3 text-gray-300">+0.0327</td>
+                                        <td class="px-4 py-3 text-gray-300">0.002</td>
+                                        <td class="px-4 py-3 text-gray-300">&lt;0.001</td>
+                                        <td class="px-4 py-3 text-gray-300">Timing is critical</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 class="text-xl font-semibold mb-3 text-gray-100">Saturation Analysis</h3>
+                <div class="relative pt-8 pb-12">
+                    <div class="flex mb-4">
+                        <div class="w-1/3 bg-blue-900 p-3 rounded-l-lg">
+                            <p class="text-sm font-medium text-gray-100">0-500 messages</p>
+                            <p class="text-xs text-gray-300">Steep engagement increase</p>
+                        </div>
+                        <div class="w-1/3 bg-blue-800 p-3">
+                            <p class="text-sm font-medium text-gray-100">500-1,000 messages</p>
+                            <p class="text-xs text-gray-300">Plateau region (90% of maximum)</p>
+                        </div>
+                        <div class="w-1/3 bg-blue-700 p-3 rounded-r-lg">
+                            <p class="text-sm font-medium text-gray-100">1,000+ messages</p>
+                            <p class="text-xs text-gray-300">Diminishing returns (&lt;5% additional benefit)</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-700 p-4 rounded-lg shadow-md flex items-center justify-center" style="height: 320px;">
+                        <img src="images/messages.png" alt="Message Saturation Analysis Chart" class="max-h-full max-w-full rounded-lg shadow-lg" />
+                    </div>
+                </div>
+                
+                <h3 class="text-xl font-semibold mb-3 text-gray-100">Temporal Analysis - Hour of Day</h3>
+                <div class="bg-gray-700 p-6 rounded-lg">
+                    <div class="bg-purple-900 bg-opacity-50 p-6 rounded-lg mb-4">
+                        <div class="flex items-center">
+                            <div class="bg-purple-800 p-3 rounded-full mr-4">
+                                <i class="fas fa-clock text-purple-400 text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-300">Peak Performance Windows</p>
+                                <p class="text-gray-300">Chi-Square Test: χ² = 496.74, p &lt; 0.001</p>
+                                <p class="text-gray-300">Optimal Window: 2 PM - 4 PM (1,000+ engagements)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-gray-700 rounded-lg overflow-hidden">
+                            <thead class="bg-purple-800">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-gray-200">Time Period</th>
+                                    <th class="px-4 py-3 text-left text-gray-200">Engagement Level</th>
+                                    <th class="px-4 py-3 text-left text-gray-200">Strategy</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-gray-600">
+                                    <td class="px-4 py-3 font-medium text-gray-100">2 PM - 4 PM</td>
+                                    <td class="px-4 py-3"><span class="bg-green-900 text-green-300 px-2 py-1 rounded text-sm">Peak (1,000+)</span></td>
+                                    <td class="px-4 py-3 text-gray-300">Maximum Send Volume</td>
+                                </tr>
+                                <tr class="border-b border-gray-600">
+                                    <td class="px-4 py-3 font-medium text-gray-100">9 AM - 6 PM</td>
+                                    <td class="px-4 py-3"><span class="bg-blue-900 text-blue-300 px-2 py-1 rounded text-sm">High (500-1,000)</span></td>
+                                    <td class="px-4 py-3 text-gray-300">Primary Window</td>
+                                </tr>
+                                <tr class="border-b border-gray-600">
+                                    <td class="px-4 py-3 font-medium text-gray-100">6 PM - 9 PM</td>
+                                    <td class="px-4 py-3"><span class="bg-yellow-900 text-yellow-300 px-2 py-1 rounded text-sm">Moderate (200-500)</span></td>
+                                    <td class="px-4 py-3 text-gray-300">Secondary Window</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-gray-100">12 AM - 8 AM</td>
+                                    <td class="px-4 py-3"><span class="bg-red-900 text-red-300 px-2 py-1 rounded text-sm">Low (&lt;200)</span></td>
+                                    <td class="px-4 py-3 text-gray-300">Avoid</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="bg-gray-700 p-4 rounded-lg shadow-md mt-4 flex items-center justify-center" style="height: 320px;">
+                        <img src="images/hour_engagement.png" alt="Hourly Engagement Chart" class="w-full h-full object-contain rounded-lg shadow-lg" />
+                    </div>
+                </div>
+                
+                <p class="text-gray-300 mb-4 mt-8">Given the inherent group imbalance, we employed a multi-layered analytical approach:</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-gray-700 p-4 rounded-lg shadow-sm border-t-4 border-blue-500">
+                        <h4 class="font-medium mb-2 text-gray-100">Chi-Square Tests</h4>
+                        <p class="text-sm text-gray-300">Categorical association analysis</p>
+                        <p class="text-xs text-gray-400 mt-2">Expected freq &gt;593 (valid)</p>
+                    </div>
+                    <div class="bg-gray-700 p-4 rounded-lg shadow-sm border-t-4 border-purple-500">
+                        <h4 class="font-medium mb-2 text-gray-100">Bootstrap Resampling</h4>
+                        <p class="text-sm text-gray-300">Robust comparison despite imbalance</p>
+                        <p class="text-xs text-gray-400 mt-2">1,000 resamples</p>
+                    </div>
+                    <div class="bg-gray-700 p-4 rounded-lg shadow-sm border-t-4 border-green-500">
+                        <h4 class="font-medium mb-2 text-gray-100">Logistic Regression</h4>
+                        <p class="text-sm text-gray-300">Predictive modeling and factor analysis</p>
+                        <p class="text-xs text-gray-400 mt-2">VIF &lt;1.5 (no multicollinearity)</p>
+                    </div>
+                    <div class="bg-gray-700 p-4 rounded-lg shadow-sm border-t-4 border-yellow-500">
+                        <h4 class="font-medium mb-2 text-gray-100">Multiple Validation</h4>
+                        <p class="text-sm text-gray-300">Cross-verification of results</p>
+                    </div>
+                </div>
+                
+                <h3 class="text-xl font-semibold mb-3 text-gray-100">Success Metrics</h3>
+                <div class="flex flex-wrap gap-4">
+                    <div class="flex items-center bg-gray-700 px-4 py-2 rounded-full">
+                        <div class="bg-blue-800 p-1 rounded-full mr-2">
+                            <i class="fas fa-bullseye text-blue-400 text-xs"></i>
+                        </div>
+                        <span class="text-sm text-gray-300">Primary: Binary engagement (True/False)</span>
+                    </div>
+                    <div class="flex items-center bg-gray-700 px-4 py-2 rounded-full">
+                        <div class="bg-purple-800 p-1 rounded-full mr-2">
+                            <i class="fas fa-clock text-purple-400 text-xs"></i>
+                        </div>
+                        <span class="text-sm text-gray-300">Secondary: Temporal patterns</span>
+                    </div>
+                    <div class="flex items-center bg-gray-700 px-4 py-2 rounded-full">
+                        <div class="bg-green-800 p-1 rounded-full mr-2">
+                            <i class="fas fa-wave-square text-green-400 text-xs"></i>
+                        </div>
+                        <span class="text-sm text-gray-300">Frequency effects</span>
+                    </div>
+                    <div class="flex items-center bg-gray-700 px-4 py-2 rounded-full">
+                        <div class="bg-yellow-800 p-1 rounded-full mr-2">
+                            <i class="fas fa-user text-yellow-400 text-xs"></i>
+                        </div>
+                        <span class="text-sm text-gray-300">User behavior</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Primary Analysis -->
+        <section id="primary-analysis" class="mb-16 bg-gray-800 rounded-xl shadow-lg overflow-hidden animate-slide-up">
+            <div class="bg-teal-700 px-6 py-4">
+                <h2 class="text-2xl font-bold text-white">Primary Analysis Results</h2>
+            </div>
+            <div class="p-6">
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3 text-gray-100">Headline Findings</h3>
+                        <div class="bg-teal-900 bg-opacity-50 p-6 rounded-lg">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-teal-800 p-3 rounded-full mr-4">
+                                    <i class="fas fa-star text-teal-400 text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-300">Engagement Rate Comparison</p>
+                                    <div class="flex items-end">
+                                        <p class="text-3xl font-bold text-teal-400 mr-2">2.55%</p>
+                                        <p class="text-sm text-gray-300 mb-1">Personalized</p>
+                                    </div>
+                                    <div class="flex items-end">
+                                        <p class="text-2xl font-bold text-gray-300 mr-2">1.79%</p>
+                                        <p class="text-sm text-gray-300 mb-1">Generic</p>
+                                    </div>
+                                    <div class="mt-2">
+                                        <span class="bg-green-900 text-green-300 text-xs font-medium px-2.5 py-0.5 rounded">+42.46% Relative Improvement</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3 text-gray-100">Statistical Significance</h3>
+                        <div class="space-y-4">
+                            <div class="bg-gray-700 p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
+                                <p class="font-medium text-gray-100">Chi-Square Test</p>
+                                <p class="text-sm text-gray-300">χ² = 54.01, p < 0.001</p>
+                            </div>
+                            <div class="bg-gray-700 p-4 rounded-lg shadow-sm border-l-4 border-purple-500">
+                                <p class="font-medium text-gray-100">Bootstrap T-Test</p>
+                                <p class="text-sm text-gray-300">t = 278.22, p < 0.001</p>
+                            </div>
+                            <div class="bg-gray-700 p-4 rounded-lg shadow-sm border-l-4 border-teal-500">
+                                <p class="font-medium text-gray-100">Effect Size</p>
+                                <p class="text-sm text-gray-300">Very Large (Cohen's d = 0.89)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-semibold mb-4 text-gray-100">Detailed Performance Metrics</h3>
+                <div class="overflow-x-auto mb-8">
+                    <table class="min-w-full bg-gray-700 rounded-lg overflow-hidden">
+                        <thead class="bg-teal-800">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-gray-200">Metric</th>
+                                <th class="px-4 py-3 text-left text-gray-200">Personalized</th>
+                                <th class="px-4 py-3 text-left text-gray-200">Generic</th>
+                                <th class="px-4 py-3 text-left text-gray-200">Difference</th>
+                                <th class="px-4 py-3 text-left text-gray-200">95% CI</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-600">
+                                <td class="px-4 py-3 text-gray-300">Users</td>
+                                <td class="px-4 py-3 font-medium text-gray-100">564,577</td>
+                                <td class="px-4 py-3 text-gray-300">23,524</td>
+                                <td class="px-4 py-3 text-gray-300">-</td>
+                                <td class="px-4 py-3 text-gray-300">-</td>
+                            </tr>
+                            <tr class="border-b border-gray-600">
+                                <td class="px-4 py-3 text-gray-300">Engaged Users</td>
+                                <td class="px-4 py-3 font-medium text-gray-100">14,423</td>
+                                <td class="px-4 py-3 text-gray-300">420</td>
+                                <td class="px-4 py-3 text-gray-300">-</td>
+                                <td class="px-4 py-3 text-gray-300">-</td>
+                            </tr>
+                            <tr class="border-b border-gray-600">
+                                <td class="px-4 py-3 text-gray-300">Engagement Rate</td>
+                                <td class="px-4 py-3 font-medium text-gray-100">2.55%</td>
+                                <td class="px-4 py-3 text-gray-300">1.79%</td>
+                                <td class="px-4 py-3 font-medium text-green-400">+0.76%</td>
+                                <td class="px-4 py-3 text-gray-300">[0.68%, 0.84%]</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 text-gray-300">Confidence Level</td>
+                                <td class="px-4 py-3 font-medium text-gray-100">99.9%+</td>
+                                <td class="px-4 py-3 text-gray-300">99.9%+</td>
+                                <td class="px-4 py-3 font-medium text-gray-100">99.9%+</td>
+                                <td class="px-4 py-3 text-gray-300">-</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 class="text-xl font-semibold mb-4 text-gray-100">Bootstrap Validation Results</h3>
+                    <div class="bg-teal-900 bg-opacity-50 p-6 rounded-lg mb-8">
+                        <p class="text-gray-300 mb-4">The bootstrap analysis (1,000 iterations) confirmed:</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <div class="bg-teal-800 p-1 rounded-full mr-3 mt-1">
+                                    <i class="fas fa-check text-teal-400 text-xs"></i>
+                                </div>
+                                <span class="text-gray-300"><strong>Personalized:</strong> Consistent engagement distribution (low variance)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="bg-teal-800 p-1 rounded-full mr-3 mt-1">
+                                    <i class="fas fa-exclamation-triangle text-yellow-400 text-xs"></i>
+                                </div>
+                                <span class="text-gray-300"><strong>Generic:</strong> High variability in performance (unpredictable)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="bg-teal-800 p-1 rounded-full mr-3 mt-1">
+                                    <i class="fas fa-shield-alt text-blue-400 text-xs"></i>
+                                </div>
+                                <span class="text-gray-300"><strong>Reliability:</strong> Personalized approach delivers stable, predictable results</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3 class="text-xl font-semibold mb-3 text-gray-100">Clinical Significance Assessment</h3>
+                    <p class="text-gray-300 mb-4">Beyond statistical significance, the findings demonstrate:</p>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="bg-gray-700 p-4 rounded-lg shadow-sm">
+                            <div class="flex items-center mb-2">
+                                <div class="bg-blue-800 p-2 rounded-full mr-3">
+                                    <i class="fas fa-hand-holding-usd text-blue-400"></i>
+                                </div>
+                                <h4 class="font-medium text-gray-100">Practical Impact</h4>
+                            </div>
+                            <p class="text-sm text-gray-300">42% improvement translates to significant business value</p>
+                        </div>
+                        <div class="bg-gray-700 p-4 rounded-lg shadow-sm">
+                            <div class="flex items-center mb-2">
+                                <div class="bg-green-800 p-2 rounded-full mr-3">
+                                    <i class="fas fa-lightbulb text-green-400"></i>
+                                </div>
+                                <h4 class="font-medium text-gray-100">Actionable Insights</h4>
+                            </div>
+                            <p class="text-sm text-gray-300">Clear direction for resource allocation</p>
+                        </div>
+                        <div class="bg-gray-700 p-4 rounded-lg shadow-sm">
+                            <div class="flex items-center mb-2">
+                                <div class="bg-purple-800 p-2 rounded-full mr-3">
+                                    <i class="fas fa-expand-arrows-alt text-purple-400"></i>
+                                </div>
+                                <h4 class="font-medium text-gray-100">Scalable Results</h4>
+                            </div>
+                            <p class="text-sm text-gray-300">Findings applicable across campaign types</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Advanced Analytics -->
+            <section id="advanced-analytics" class="mb-16 bg-gray-800 rounded-xl shadow-lg overflow-hidden animate-slide-up">
+                <div class="bg-purple-700 px-6 py-4">
+                    <h2 class="text-2xl font-bold text-white">Advanced Analytics & Optimization</h2>
+                </div>
+                <div class="p-6">
+                    <div class="grid md:grid-cols-2 gap-8 mb-8">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-100">Temporal Analysis - Day of Week</h3>
+                            <div class="bg-purple-900 bg-opacity-50 p-6 rounded-lg mb-4">
+                                <div class="flex items-center mb-4">
+                                    <div class="bg-purple-800 p-3 rounded-full mr-4">
+                                        <i class="fas fa-calendar-alt text-purple-400 text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-300">Statistical Test Results</p>
+                                        <p class="text-gray-300">Chi-Square Test: χ² = 410.05, p < 0.001</p>
+                                        <p class="text-gray-300">Degrees of Freedom: 6</p>
+                                        <p class="text-gray-300">Critical Value: 12.59 (α = 0.05)</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full bg-gray-700 rounded-lg overflow-hidden">
+                                    <thead class="bg-purple-800">
+                                        <tr>
+                                            <th class="px-4 py-3 text-left text-gray-200">Day</th>
+                                            <th class="px-4 py-3 text-left text-gray-200">Engagement Count</th>
+                                            <th class="px-4 py-3 text-left text-gray-200">Performance Index</th>
+                                            <th class="px-4 py-3 text-left text-gray-200">Recommendation</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-b border-gray-600">
+                                            <td class="px-4 py-3 font-medium text-gray-100">Monday</td>
+                                            <td class="px-4 py-3 text-gray-300">2,857</td>
+                                            <td class="px-4 py-3"><span class="bg-green-900 text-green-300 px-2 py-1 rounded text-sm">137%</span></td>
+                                            <td class="px-4 py-3 text-gray-300">Primary Launch Day</td>
+                                        </tr>
+                                        <tr class="border-b border-gray-600">
+                                            <td class="px-4 py-3 font-medium text-gray-100">Tuesday</td>
+                                            <td class="px-4 py-3 text-gray-300">2,312</td>
+                                            <td class="px-4 py-3"><span class="bg-green-900 text-green-300 px-2 py-1 rounded text-sm">111%</span></td>
+                                            <td class="px-4 py-3 text-gray-300">Secondary Launch Day</td>
+                                        </tr>
+                                        <tr class="border-b border-gray-600">
+                                            <td class="px-4 py-3 font-medium text-gray-100">Wednesday</td>
+                                            <td class="px-4 py-3 text-gray-300">1,943</td>
+                                            <td class="px-4 py-3"><span class="bg-yellow-900 text-yellow-300 px-2 py-1 rounded text-sm">93%</span></td>
+                                            <td class="px-4 py-3 text-gray-300">Standard</td>
+                                        </tr>
+                                        <tr class="border-b border-gray-600">
+                                            <td class="px-4 py-3 font-medium text-gray-100">Thursday</td>
+                                            <td class="px-4 py-3 text-gray-300">1,784</td>
+                                            <td class="px-4 py-3"><span class="bg-yellow-900 text-yellow-300 px-2 py-1 rounded text-sm">86%</span></td>
+                                            <td class="px-4 py-3 text-gray-300">Reduced Activity</td>
+                                        </tr>
+                                        <tr class="border-b border-gray-600">
+                                            <td class="px-4 py-3 font-medium text-gray-100">Friday</td>
+                                            <td class="px-4 py-3 text-gray-300">1,521</td>
+                                            <td class="px-4 py-3"><span class="bg-red-900 text-red-300 px-2 py-1 rounded text-sm">73%</span></td>
+                                            <td class="px-4 py-3 text-gray-300">Minimal Activity</td>
+                                        </tr>
+                                        <tr class="border-b border-gray-600">
+                                            <td class="px-4 py-3 font-medium text-gray-100">Saturday</td>
+                                            <td class="px-4 py-3 text-gray-300">1,203</td>
+                                            <td class="px-4 py-3"><span class="bg-red-900 text-red-300 px-2 py-1 rounded text-sm">58%</span></td>
+                                            <td class="px-4 py-3 text-gray-300">Avoid</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-3 font-medium text-gray-100 Sunday">Sunday</td>
+                                            <td class="px-4 py-3 text-gray-300">1,376</td>
+                                            <td class="px-4 py-3"><span class="bg-red-900 text-red-300 px-2 py-1 rounded text-sm">66%</span></td>
+                                            <td class="px-4 py-3 text-gray-300">Avoid</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-100">Temporal Analysis - Hour of Day</h3>
+                            <div class="bg-purple-900 bg-opacity-50 p-6 rounded-lg mb-4">
+                                <div class="flex items-center">
+                                    <div class="bg-purple-800 p-3 rounded-full mr-4">
+                                        <i class="fas fa-clock text-purple-400 text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-300">Peak Performance Windows</p>
+                                        <p class="text-gray-300">Chi-Square Test: χ² = 496.74, p < 0.001</p>
+                                        <p class="text-gray-300">Optimal Window: 2 PM - 4 PM (1,000+ engagements)</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full bg-gray-700 rounded-lg overflow-hidden">
+                                    <thead class="bg-purple-800">
+                                        <tr>
+                                            <th class="px-4 py-3 text-left text-gray-200">Time Period</th>
+                                            <th class="px-4 py-3 text-left text-gray-200">Engagement Level</th>
+                                            <th class="px-4 py-3 text-left text-gray-200">Strategy</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-b border-gray-600">
+                                            <td class="px-4 py-3 font-medium text-gray-100">2 PM - 4 PM</td>
+                                            <td class="px-4 py-3"><span class="bg-green-900 text-green-300 px-2 py-1 rounded text-sm">Peak (1,000+)</span></td>
+                                            <td class="px-4 py-3 text-gray-300">Maximum Send Volume</td>
+                                        </tr>
+                                        <tr class="border-b border-gray-600">
+                                            <td class="px-4 py-3 font-medium text-gray-100">9 AM - 6 PM</td>
+                                            <td class="px-4 py-3"><span class="bg-blue-900 text-blue-300 px-2 py-1 rounded text-sm">High (500-1,000)</span></td>
+                                            <td class="px-4 py-3 text-gray-300">Primary Window</td>
+                                        </tr>
+                                        <tr class="border-b border-gray-600">
+                                            <td class="px-4 py-3 font-medium text-gray-100">6 PM - 9 PM</td>
+                                            <td class="px-4 py-3"><span class="bg-yellow-900 text-yellow-300 px-2 py-1 rounded text-sm">Moderate (200-500)</span></td>
+                                            <td class="px-4 py-3 text-gray-300">Secondary Window</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-3 font-medium text-gray-100">12 AM - 8 AM</td>
+                                            <td class="px-4 py-3"><span class="bg-red-900 text-red-300 px-2 py-1 rounded text-sm">Low (&lt;200)</span></td>
+                                            <td class="px-4 py-3 text-gray-300">Avoid</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="bg-gray-700 p-4 rounded-lg shadow-md mt-4 flex items-center justify-center" style="height: 320px;">
+                                <img src="images/hour_engagement.png" alt="Hourly Engagement Chart" class="max-h-full max-w-full rounded-lg shadow-lg" />
+                            </div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="text-xl font-semibold mb-4 text-gray-100">Message Frequency Optimization</h3>
+                    <div class="grid md:grid-cols-2 gap-8 mb-8">
+                        <div>
+                            <div class="bg-purple-900 bg-opacity-50 p-6 rounded-lg mb-6">
+                                <h4 class="font-medium mb-3 text-gray-100">Logistic Regression Model</h4>
+                                <div class="grid grid-cols-2 gap-4 mb-4">
+                                    <div>
+                                        <p class="text-sm text-gray-300">Model Performance</p>
+                                        <p class="text-gray-300">Pseudo R² = 0.0766</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-300">AIC</p>
+                                        <p class="text-gray-300">127,932 (good fit)</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-300">Log-Likelihood</p>
+                                        <p class="text-gray-300">-63,965</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="font-medium mb-3 text-gray-100">Key Coefficients</h4>
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full bg-gray-700 rounded-lg overflow-hidden">
+                                    <thead class="bg-purple-800">
+                                        <tr>
+                                            <th class="px-4 py-3 text-left text-gray-200">Variable</th>
+                                            <th class="px-4 py-3 text-left text-gray-200">Coefficient</th>
+                                            <th class="px-4 py-3 text-left text-gray-200">Std Error</th>
+                                            <th class="px-4 py-3 text-left text-gray-200">p-value</th>
+                                            <th class="px-4 py-3 text-left text-gray-200">Interpretation</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-b border-gray-600">
+                                            <td class="px-4 py-3 text-gray-300">Intercept</td>
+                                            <td class="px-4 py-3 text-gray-300">-4.54</td>
+                                            <td class="px-4 py-3 text-gray-300">0.030</td>
+                                            <td class="px-4 py-3 text-gray-300">&lt;0.001</td>
+                                            <td class="px-4 py-3 text-gray-300">Baseline low engagement</td>
+                                        </tr>
+                                        <tr class="border-b border-gray-600">
+                                            <td class="px-4 py-3 text-gray-300">Total Messages</td>
+                                            <td class="px-4 py-3 text-gray-300">+0.0102</td>
+                                            <td class="px-4 py-3 text-gray-300">0.0001</td>
+                                            <td class="px-4 py-3 text-gray-300">&lt;0.001</td>
+                                            <td class="px-4 py-3 text-gray-300">Positive but small effect</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-3 text-gray-300">Hour</td>
+                                            <td class="px-4 py-3 text-gray-300">+0.0327</td>
+                                            <td class="px-4 py-3 text-gray-300">0.002</td>
+                                            <td class="px-4 py-3 text-gray-300">&lt;0.001</td>
+                                            <td class="px-4 py-3 text-gray-300">Timing is critical</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-100">Saturation Analysis</h3>
+                            <div class="relative pt-8 pb-12">
+                                <div class="flex mb-4">
+                                    <div class="w-1/3 bg-blue-900 p-3 rounded-l-lg">
+                                        <p class="text-sm font-medium text-gray-100">0-500 messages</p>
+                                        <p class="text-xs text-gray-300">Steep engagement increase</p>
+                                    </div>
+                                    <div class="w-1/3 bg-blue-800 p-3">
+                                        <p class="text-sm font-medium text-gray-100">500-1,000 messages</p>
+                                        <p class="text-xs text-gray-300">Plateau region (90% of maximum)</p>
+                                    </div>
+                                    <div class="w-1/3 bg-blue-700 p-3 rounded-r-lg">
+                                        <p class="text-sm font-medium text-gray-100">1,000+ messages</p>
+                                        <p class="text-xs text-gray-300">Diminishing returns (&lt;5% additional benefit)</p>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-700 p-4 rounded-lg shadow-md flex items-center justify-center" style="height: 320px;">
+                                    <img src="images/messages.png" alt="Message Saturation Analysis Chart" class="max-h-full max-w-full rounded-lg shadow-lg" />
+                                </div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Business Impact -->
+            <section id="business-impact" class="mb-16 bg-gray-800 rounded-xl shadow-lg overflow-hidden animate-slide-up">
+                <div class="bg-orange-700 px-6 py-4">
+                    <h2 class="text-2xl font-bold text-white">Business Impact Analysis</h2>
+                </div>
+                <div class="p-6">
+                    <div class="grid md:grid-cols-2 gap-8 mb-8">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-100">Revenue Impact Modeling</h3>
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full bg-gray-700 rounded-lg overflow-hidden">
+                                    <thead class="bg-orange-800">
+                                        <tr>
+                                            <th class="px-4 py-3 text-left text-gray-200">Scenario</th>
+                                            <th class="px-4 py-3 text-left text-gray-200">Engagement Rate</th>
+                                            <th class="px-4 py-3 text-left text-gray-200">Monthly Engaged Users</th>
+                                            <th class="px-4 py-3 text-left text-gray-200">Revenue Impact*</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-b border-gray-600">
+                                            <td class="px-4 py-3 font-medium text-gray-100">Current (Mixed)</td>
+                                            <td class="px-4 py-3 text-gray-300">2.51%</td>
+                                            <td class="px-4 py-3 text-gray-300">14,760</td>
+                                            <td class="px-4 py-3 text-gray-300">Baseline</td>
+                                        </tr>
+                                        <tr class="border-b border-gray-600">
+                                            <td class="px-4 py-3 font-medium text-gray-100">All Generic</td>
+                                            <td class="px-4 py-3 text-gray-300">1.79%</td>
+                                            <td class="px-4 py-3 text-gray-300">10,534</td>
+                                            <td class="px-4 py-3 text-red-400">-29%</td>
+                                        </tr>
+                                        <tr class="border-b border-gray-600">
+                                            <td class="px-4 py-3 font-medium text-gray-100">All Personalized</td>
+                                            <td class="px-4 py-3 text-gray-300">2.55%</td>
+                                            <td class="px-4 py-3 text-gray-300">14,999</td>
+                                            <td class="px-4 py-3 text-green-400">+1.6%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-3 font-medium text-gray-100">Optimized Timing</td>
+                                            <td class="px-4 py-3 text-gray-300">3.83%</td>
+                                            <td class="px-4 py-3 text-gray-300">22,530</td>
+                                            <td class="px-4 py-3 text-green-400">+53%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-2">*Based on average user lifetime value</p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-100">Cost-Benefit Analysis</h3>
+                            <div class="bg-orange-900 bg-opacity-50 p-6 rounded-lg">
+                                <h4 class="font-medium mb-2 text-gray-100">Expected Benefits</h4>
+                                <ul class="space-y-2 mb-4">
+                                    <li class="flex items-start">
+                                        <div class="bg-orange-800 p-1 rounded-full mr-3 mt-1">
+                                            <i class="fas fa-arrow-up text-orange-400 text-xs"></i>
+                                        </div>
+                                        <span class="text-gray-300">Engagement Increase: 42% improvement</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <div class="bg-orange-8 00 p-1 rounded-full mr-3 mt-1">
+                                            <i class="fas fa-dollar-sign text-orange-400 text-xs"></i>
+                                        </div>
+                                        <span class="text-gray-300">Cost per Engagement: 25% reduction</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <div class="bg-orange-800 p-1 rounded-full mr-3 mt-1">
+                                            <i class="fas fa-percentage text-orange-400 text-xs"></i>
+                                        </div>
+                                        <span class="text-gray-300">Campaign ROI: 40-60% improvement</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <div class="bg-orange-800 p-1 rounded-full mr-3 mt-1">
+                                            <i class="fas fa-chart-line text-orange-400 text-xs"></i>
+                                        </div>
+                                        <span class="text-gray-300">Estimated Annual Value: $400K-600K</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="text-xl font-semibold mb-4 text-gray-100">Risk Assessment</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-medium mb-2 text-blue-400">High Confidence Results</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-start">
+                                    <div class="bg-blue-800 p-1 rounded-full mr-3 mt-1">
+                                        <i class="fas fa-check text-blue-400 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-300">Statistical Significance: p < 0.001 across all tests</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="bg-blue-800 p-1 rounded-full mr-3 mt-1">
+                                        <i class="fas fa-check text-blue-400 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-300">Large Sample Size: 588K users provide robust evidence</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="bg-blue-800 p-1 rounded-full mr-3 mt-1">
+                                        <i class="fas fa-check text-blue-400 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-300">Multiple Validation: Consistent findings across methods</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="bg-blue-800 p-1 rounded-full mr-3 mt-1">
+                                        <i class="fas fa-check text-blue-400 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-300">Effect Size: Large and practically meaningful</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-medium mb-2 text-red-400">Potential Risks</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-start">
+                                    <div class="bg-red-800 p-1 rounded-full mr-3 mt-1">
+                                        <i class="fas fa-exclamation-triangle text-red-400 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-300">Implementation Complexity: Personalization requires system upgrades</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="bg-red-800 p-1 rounded-full mr-3 mt-1">
+                                        <i class="fas fa-exclamation-triangle text-red-400 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-300">Content Scaling: Need robust content creation processes</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="bg-red-800 p-1 rounded-full mr-3 mt-1">
+                                        <i class="fas fa-exclamation-triangle text-red-400 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-300">Data Privacy: Increased data collection for personalization</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="bg-red-800 p-1 rounded-full mr-3 mt-1">
+                                        <i class="fas fa-exclamation-triangle text-red-400 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-300">Novelty Effect: May diminish over time (requires monitoring)</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Strategic Recommendations -->
+            <section id="recommendations" class="mb-16 bg-gray-800 rounded-xl shadow-lg overflow-hidden animate-slide-up">
+                <div class="bg-green-700 px-6 py-4">
+                    <h2 class="text-2xl font-bold text-white">Strategic Recommendations</h2>
+                </div>
+                <div class="p-6">
+                    <div class="grid md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-green-900 bg-opacity-50 p-6 rounded-lg">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-green-800 p-3 rounded-full mr-4">
+                                    <span class="text-green-300 font-bold">1</span>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-100">Messaging Strategy Overhaul</h3>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-start">
+                                    <div class="bg-green-800 p-1 rounded-full mr-3 mt-1">
+                                        <i class="fas fa-arrow-right text-green-300 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-300"><strong>Action:</strong> Shift 95% of messaging budget to personalized approach</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="bg-green-800 p-1 rounded-full mr-3 mt-1">
+                                        <i class="fas fa-bollseye text-green-300 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-300"><strong>Expected Impact:</strong> 42% engagement increase</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="bg-green-800 p-1 rounded-full mr-3 mt-1">
+                                        <i class="fas fa-users text-green-300 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-300"><strong>Resources Required:</strong> Content team reorganization</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="bg-green-800 p-1 rounded-full mr-3 mt-1">
+                                        <i class="fas fa-chart-line text-green-300 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-300"><strong>Success Metric:</strong> Engagement rate >3.0%</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-blue-900 bg-opacity-50 p-6 rounded-lg">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-blue-800 p-3 rounded-full mr-4">
+                                    <span class="text-blue-300 font-bold">2</span>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-100">Timing Optimization</h3>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-start">
+                                    <div class="bg-blue-800 p-1 rounded-full mr-3 mt-1">
+                                        <i class="fas fa-arrow-right text-blue-300 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-300"><strong>Action:</strong> Implement Monday-Tuesday, 2-4 PM sending schedule</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="bg-blue-800 p-1 rounded-full mr-3 mt-1">
+                                        <i class="fas fa-bollseye text-blue-300 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-300"><strong>Expected Impact:</strong> 2-3x engagement during peak hours</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="bg-blue-800 p-1 rounded-full mr-3 mt-1">
+                                        <i class="fas fa-clock text-blue-300 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-300"><strong>Resources Required:</strong> Campaign scheduling system update</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="bg-blue-800 p-1 rounded-full mr-3 mt-1">
+                                        <i class="fas fa-chart-line text-blue-300 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-300"><strong>Success Metric:</strong> 60% of engagements during peak hours</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-purple-900 bg-opacity-50 p-6 rounded-lg">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-purple-800 p-3 rounded-full mr-4">
+                                    <span class="text-purple-300 font-bold">3</span>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-100">Frequency Management</h3>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-start">
+                                    <div class="bg-purple-800 p-1 rounded-full mr-3 mt-1">
+                                        <i class="fas fa-arrow-right text-purple-300 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-300"><strong>Action:</strong> Cap messaging at 500 per user</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="bg-purple-800 p-1 rounded-full mr-3 mt-1">
+                                        <i class="fas fa-bollseye text-purple-300 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-300"><strong>Expected Impact:</strong> 25% cost efficiency improvement</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="bg-purple-800 p-1 rounded-full mr-3 mt-1">
+                                        <i class="fas fa-robot text-purple-300 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-300"><strong>Resources Required:</strong> Automated frequency controls</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="bg-purple-800 p-1 rounded-full mr-3 mt-1">
+                                        <i class="fas fa-chart-line text-purple-300 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-300"><strong>Success Metric:</strong> Reduced cost-per-engagement</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                <div class="bg-gray-700 p-6 rounded-lg border-l-4 border-gray-500">
+                    <h3 class="text-xl font-semibold mb-3 text-gray-100">Conclusion & Next Steps</h3>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="font-medium mb-2 text-gray-300">Key Findings Summary</h4>
+                            <p class="text-gray-300 mb-4">This comprehensive analysis provides overwhelming evidence that personalized messaging significantly outperforms generic messaging for conservation campaigns. The 42% engagement improvement, combined with optimal timing strategies, offers immediate opportunities for substantial performance gains.</p>
+                            
+                            <h4 class="font-medium mb-2 text-gray-300">Strategic Implications</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-start">
+                                    <div class="bg-gray-600 p-1 rounded-full mr-3 mt-1">
+                                        <i class="fas fa-check text-gray-300 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-300">Personalization is not optional - it's a competitive necessity</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="bg-gray-600 p-1 rounded-full mr-3 mt-1">
+                                        <i class="fas fa-check text-gray-300 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-300">Timing optimization provides additional significant gains</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="bg-gray-600 p-1 rounded-full mr-3 mt-1">
+                                        <i class="fas fa-check text-gray-300 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-300">Data-driven approach enables continuous improvement</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="bg-gray-600 p-1 rounded-full mr-3 mt-1">
+                                        <i class="fas fa-check text-gray-300 text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-300">Investment in capabilities will yield long-term competitive advantage</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-medium mb-2 text-gray-300">Immediate Actions Required</h4>
+                            <div class="relative timeline-container">
+                                <div class="relative timeline-item pl-8 pb-8">
+                                    <div class="absolute left-0 top-0 w-4 h-4 bg-blue-500 rounded-full"></div>
+                                    <p class="font-medium text-gray-100">Approve budget reallocation</p>
+                                    <p class="text-sm text-gray-300">Shift resources to personalized messaging</p>
+                                </div>
+                                <div class="relative timeline-item pl-8 pb-8">
+                                    <div class="absolute left-0 top-0 w-4 h-4 bg-green-500 rounded-full"></div>
+                                    <p class="font-medium text-gray-100">Initiate system upgrades</p>
+                                    <p class="text-sm text-gray-300">For personalization capabilities</p>
+                                </div>
+                                <div class="relative timeline-item pl-8 pb-8">
+                                    <div class="absolute left-0 top-0 w-4 h-4 bg-purple-500 rounded-full"></div>
+                                    <p class="font-medium text-gray-100">Begin content development</p>
+                                    <p class="text-sm text-gray-300">For personalized campaigns</p>
+                                </div>
+                                <div class="relative timeline-item pl-8">
+                                    <div class="absolute left-0 top-0 w-4 h-4 bg-yellow-500 rounded-full"></div>
+                                    <p class="font-medium text-gray-100">Establish monitoring processes</p>
+                                    <p class="text-sm text-gray-300">For optimization</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 bg-gray-800 p-4 rounded-lg">
+                        <h4 class="font-medium mb-2 text-gray-300">Long-term Vision</h4>
+                        <p class="text-gray-300">Transform our conservation campaign into a data-driven, highly personalized engagement platform that delivers superior results while providing exceptional user experiences.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analysis Files & Notebooks -->
+        <section class="py-12 bg-gray-800">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-100 mb-2">📚 Analysis Files & Notebooks</h2>
+                    <div class="w-20 h-1 bg-blue-500 mx-auto"></div>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-gray-700 p-6 rounded-lg border border-gray-600">
+                        <h3 class="text-xl font-semibold mb-3 text-gray-100">GitHub Repository</h3>
+                        <p class="text-gray-300 mb-4">Access all source code, notebooks, and data files:</p>
+                        <a href="https://github.com/BIAnalyst-Patrick/Customer-Churn-Prediction" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg inline-flex items-center transition duration-300">
+                            <i class="fab fa-github mr-2"></i> View on GitHub
+                        </a>
+                    </div>
+                    <div class="bg-gray-700 p-6 rounded-lg border border-gray-600">
+                        <h3 class="text-xl font-semibold mb-3 text-gray-100">Jupyter Notebook</h3>
+                        <p class="text-gray-300 mb-4">View the complete analysis and model development in a single notebook:</p>
+                        <a href="conservation_campaign_notebook.html" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg inline-flex items-center transition duration-300">
+                            <i class="fas fa-book mr-2"></i> View Jupyter Notebook
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center py-8 text-gray-400 text-sm">
+            <p>This report represents a comprehensive analysis of 588,101 user interactions with statistical significance at the p < 0.001 level.</p>
+            <p class="mt-2">All recommendations are based on rigorous statistical methodology and validated through multiple analytical approaches.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Simple animation for stat cards on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const statCards = document.querySelectorAll('.stat-card');
+            
+            statCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('card-hover');
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>

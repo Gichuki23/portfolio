@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decoding BMW's Financial Health</title>
+        <link rel="icon" type="image/png" href="images/partoe.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/bmw.css">
+</head>
+<body class="gradient-bg min-h-screen text-gray-200">
+        <!-- Navigation -->
+    <nav class="bg-white shadow-sm fixed w-full z-10 dark:bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-indigo-600 dark:text-indigo-400">Patrick Gichuki</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="../../index.html#home" class="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium dark:text-gray-300 dark:hover:text-indigo-400">Home</a>
+                    <a href="../../index.html#about" class="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium dark:text-gray-300 dark:hover:text-indigo-400">About</a>
+                    <a href="../../index.html#skills" class="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium dark:text-gray-300 dark:hover:text-indigo-400">Skills</a>
+                    <a href="../../index.html#projects" class="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium dark:text-gray-300 dark:hover:text-indigo-400">Projects</a>
+                    <a href="../../index.html#contact" class="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium dark:text-gray-300 dark:hover:text-indigo-400">Contact</a>
+                </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Spacer for fixed navbar -->
+    <div class="h-16"></div>
+    
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="mb-12">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h1 class="text-4xl font-bold text-white mb-2">Decoding BMW's Financial Health</h1>
+                    <p class="text-blue-300">A Comprehensive Analysis of Profit, Risk, and Growth</p>
+                </div>
+                <div class="hidden md:block">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/1200px-BMW.svg.png" alt="BMW Logo" class="h-16">
+                </div>
+            </div>
+            
+            <!-- Navigation -->
+            <nav class="bg-gray-800 rounded-lg p-4 shadow-lg">
+                <ul class="flex flex-wrap justify-center gap-6">
+                    <li><a href="#executive" class="nav-link text-lg font-medium hover:text-blue-400">Executive Summary</a></li>
+                    <li><a href="#problem" class="nav-link text-lg font-medium hover:text-blue-400">Problem Statement</a></li>
+                    <li><a href="#metrics" class="nav-link text-lg font-medium hover:text-blue-400">Key Metrics</a></li>
+                    <li><a href="#insights" class="nav-link text-lg font-medium hover:text-blue-400">Insights</a></li>
+                    <li><a href="#recommendations" class="nav-link text-lg font-medium hover:text-blue-400">Recommendations</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Executive Summary -->
+        <section id="executive" class="mb-16">
+            <div class="flex items-center mb-6">
+                <i class="fas fa-rocket text-blue-400 text-2xl mr-3"></i>
+                <h2 class="text-3xl font-bold text-white">Executive Summary</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                <!-- Problem Card -->
+                <div class="card-gradient rounded-xl p-6 shadow-lg border border-gray-700">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-900 p-3 rounded-full mr-4">
+                            <i class="fas fa-question-circle text-blue-300 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">Problem Statement</h3>
+                    </div>
+                    <p class="text-gray-300">Analyze BMW's financial performance across profitability, risk, leverage, and growth efficiency from 2017 to 2024 to understand impact on overall performance.</p>
+                </div>
+                
+                <!-- Action Card -->
+                <div class="card-gradient rounded-xl p-6 shadow-lg border border-gray-700">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-purple-900 p-3 rounded-full mr-4">
+                            <i class="fas fa-tasks text-purple-300 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">Action Taken</h3>
+                    </div>
+                    <p class="text-gray-300">Performed in-depth analysis through visualizations, KPIs, and ratios derived from financial data to assess key performance areas.</p>
+                </div>
+                
+                <!-- Result Card -->
+                <div class="card-gradient rounded-xl p-6 shadow-lg border border-gray-700">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-900 p-3 rounded-full mr-4">
+                            <i class="fas fa-chart-line text-green-300 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">Result</h3>
+                    </div>
+                    <p class="text-gray-300">Strong recovery in profitability and growth despite fluctuations, with 59.09% increase in net income and 7.94% drop in revenue.</p>
+                </div>
+            </div>
+            
+            <!-- Summary Charts -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <!-- Profitability -->
+                <div class="card-gradient rounded-xl p-6 shadow-lg border border-gray-700">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-coins text-yellow-400 mr-2"></i> Profitability Analysis
+                    </h3>
+                    <div class="chart-container bg-gray-800 rounded-lg p-4">
+                        <!-- Chart image -->
+                        <div class="flex items-center justify-center h-full">
+                            <img src="images/profitability.png" alt="Profitability Chart" class="max-h-48 rounded-lg shadow-lg opacity-90">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Risk & Leverage -->
+                <div class="card-gradient rounded-xl p-6 shadow-lg border border-gray-700">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-shield-alt text-red-400 mr-2"></i> Risk & Leverage Analysis
+                    </h3>
+                    <div class="chart-container bg-gray-800 rounded-lg p-4">
+                        <!-- Chart image -->
+                        <div class="flex items-center justify-center h-full">
+                            <img src="images/BMW’s Financial Health levarage.png" alt="Risk & Leverage Chart" class="max-h-48 rounded-lg shadow-lg opacity-90">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Growth & Efficiency -->
+                <div class="card-gradient rounded-xl p-6 shadow-lg border border-gray-700">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-seedling text-green-400 mr-2"></i> Growth & Efficiency Analysis
+                    </h3>
+                    <div class="chart-container bg-gray-800 rounded-lg p-4">
+                        <!-- Chart image -->
+                        <div class="flex items-center justify-center h-full">
+                            <img src="images/BMW’s Financial Health growth.png" alt="Growth & Efficiency Chart" class="max-h-48 rounded-lg shadow-lg opacity-90">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem Statement -->
+        <section id="problem" class="mb-16">
+            <div class="flex items-center mb-6">
+                <i class="fas fa-bullseye text-red-400 text-2xl mr-3"></i>
+                <h2 class="text-3xl font-bold text-white">Problem Statement</h2>
+            </div>
+            
+            <div class="card-gradient rounded-xl p-8 shadow-lg border border-gray-700">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4 text-blue-300">Core Issue</h3>
+                        <p class="text-gray-300 mb-6">BMW needed to assess how effectively it is utilizing its assets and managing debt risk to sustain profitability and growth.</p>
+                        
+                        <h3 class="text-xl font-semibold mb-4 text-blue-300">Business Objective</h3>
+                        <p class="text-gray-300">To assess the efficiency of BMW's asset utilization, profitability trends, and the impact of debt on the company's overall financial health.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4 text-blue-300">Key Questions</h3>
+                        <ul class="space-y-3 text-gray-300">
+                            <li class="flex items-start">
+                                <i class="fas fa-question-circle text-blue-400 mt-1 mr-2"></i>
+                                <span>How efficiently is BMW turning revenue into profit?</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-question-circle text-blue-400 mt-1 mr-2"></i>
+                                <span>How does debt risk influence profitability and asset turnover?</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-question-circle text-blue-400 mt-1 mr-2"></i>
+                                <span>What trends can be observed in asset utilization and efficiency?</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Metrics -->
+        <section id="metrics" class="mb-16">
+            <div class="flex items-center mb-6">
+                <i class="fas fa-chart-simple text-green-400 text-2xl mr-3"></i>
+                <h2 class="text-3xl font-bold text-white">Objectives & Key Metrics</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Net Profit Margin -->
+                <div class="kpi-card card-gradient rounded-xl p-6 shadow-lg border border-gray-700">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-400">Net Profit Margin</h3>
+                            <p class="text-2xl font-bold text-white">11.51%</p>
+                        </div>
+                        <div class="bg-blue-900 p-2 rounded-lg">
+                            <i class="fas fa-percent text-blue-300"></i>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400">Average over period</p>
+                    <div class="mt-3 h-1 w-full bg-gray-700 rounded-full">
+                        <div class="h-1 bg-blue-500 rounded-full" style="width: 75%"></div>
+                    </div>
+                </div>
+                
+                <!-- ROA -->
+                <div class="kpi-card card-gradient rounded-xl p-6 shadow-lg border border-gray-700">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-400">ROA</h3>
+                            <p class="text-2xl font-bold text-white">1.23%</p>
+                        </div>
+                        <div class="bg-purple-900 p-2 rounded-lg">
+                            <i class="fas fa-arrow-up-right-dots text-purple-300"></i>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400">2024 value</p>
+                    <div class="mt-3 h-1 w-full bg-gray-700 rounded-full">
+                        <div class="h-1 bg-purple-500 rounded-full" style="width: 40%"></div>
+                    </div>
+                </div>
+                
+                <!-- Debt-to-Equity -->
+                <div class="kpi-card card-gradient rounded-xl p-6 shadow-lg border border-gray-700">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-400">Debt-to-Equity</h3>
+                            <p class="text-2xl font-bold text-white">1.42</p>
+                        </div>
+                        <div class="bg-red-900 p-2 rounded-lg">
+                            <i class="fas fa-scale-balanced text-red-300"></i>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400">Average ratio</p>
+                    <div class="mt-3 h-1 w-full bg-gray-700 rounded-full">
+                        <div class="h-1 bg-red-500 rounded-full" style="width: 60%"></div>
+                    </div>
+                </div>
+                
+                <!-- Asset Turnover -->
+                <div class="kpi-card card-gradient rounded-xl p-6 shadow-lg border border-gray-700">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-400">Asset Turnover</h3>
+                            <p class="text-2xl font-bold text-white">0.38</p>
+                        </div>
+                        <div class="bg-green-900 p-2 rounded-lg">
+                            <i class="fas fa-repeat text-green-300"></i>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400">Average ratio</p>
+                    <div class="mt-3 h-1 w-full bg-gray-700 rounded-full">
+                        <div class="h-1 bg-green-500 rounded-full" style="width: 38%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-gradient rounded-xl p-6 shadow-lg border border-gray-700">
+                <h3 class="text-xl font-semibold mb-4">Result Achieved</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-gray-800 p-4 rounded-lg">
+                        <p class="text-sm text-gray-400">Net Profit Margin</p>
+                        <p class="text-lg font-semibold text-blue-400">Averaged 11.51%</p>
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg">
+                        <p class="text-sm text-gray-400">Revenue Change</p>
+                        <p class="text-lg font-semibold text-red-400">Decreased by 7.94%</p>
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg">
+                        <p class="text-sm text-gray-400">Net Income Growth</p>
+                        <p class="text-lg font-semibold text-green-400">Increased by 59.09%</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Overview -->
+        <section class="mb-16">
+            <div class="flex items-center mb-6">
+                <i class="fas fa-database text-yellow-400 text-2xl mr-3"></i>
+                <h2 class="text-3xl font-bold text-white">Data Overview</h2>
+            </div>
+            
+            <div class="card-gradient rounded-xl p-8 shadow-lg border border-gray-700">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4 text-blue-300">Data Sources</h3>
+                        <ul class="space-y-3 text-gray-300">
+                            <li class="flex items-start">
+                                <i class="fas fa-file-invoice-dollar text-blue-400 mt-1 mr-3"></i>
+                                <span>Financial statements of BMW (public records and financial reports)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-book text-blue-400 mt-1 mr-3"></i>
+                                <span>Annual reports for key metrics (Net Income, ROA, Asset Turnover, Debt Ratio)</span>
+                            </li>
+                        </ul>
+                        
+                        <h3 class="text-xl font-semibold mt-6 mb-4 text-blue-300">Key Variables</h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <span class="bg-gray-800 px-3 py-1 rounded-full text-sm text-center">Revenue</span>
+                            <span class="bg-gray-800 px-3 py-1 rounded-full text-sm text-center">Net Income</span>
+                            <span class="bg-gray-800 px-3 py-1 rounded-full text-sm text-center">ROA</span>
+                            <span class="bg-gray-800 px-3 py-1 rounded-full text-sm text-center">Debt-to-Equity</span>
+                            <span class="bg-gray-800 px-3 py-1 rounded-full text-sm text-center">Asset Turnover</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4 text-blue-300">Data Challenges</h3>
+                        <div class="bg-gray-800 rounded-lg p-4 mb-4">
+                            <div class="flex items-start">
+                                <i class="fas fa-exclamation-triangle text-yellow-500 mt-1 mr-3"></i>
+                                <div>
+                                    <h4 class="font-medium">Missing quarterly data</h4>
+                                    <p class="text-sm text-gray-400">For some years, especially related to asset turnover, which was estimated based on annual trends.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-800 rounded-lg p-4">
+                            <div class="flex items-start">
+                                <i class="fas fa-virus text-red-500 mt-1 mr-3"></i>
+                                <div>
+                                    <h4 class="font-medium">Pandemic impact</h4>
+                                    <p class="text-sm text-gray-400">Data consistency issues due to external market factors affecting 2020 numbers.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold mt-6 mb-4 text-blue-300">Methodology</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-gray-700 px-3 py-1 rounded-full text-sm flex items-center">
+                                <i class="fas fa-broom mr-1 text-blue-400"></i> Data Cleaning
+                            </span>
+                            <span class="bg-gray-700 px-3 py-1 rounded-full text-sm flex items-center">
+                                <i class="fas fa-chart-line mr-1 text-purple-400"></i> Trend Analysis
+                            </span>
+                            <span class="bg-gray-700 px-3 py-1 rounded-full text-sm flex items-center">
+                                <i class="fas fa-balance-scale mr-1 text-green-400"></i> Comparative Analysis
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Insights -->
+        <section id="insights" class="mb-16">
+            <div class="flex items-center mb-6">
+                <i class="fas fa-lightbulb text-yellow-400 text-2xl mr-3"></i>
+                <h2 class="text-3xl font-bold text-white">Key Insights</h2>
+            </div>
+            
+            <div class="space-y-8">
+                <!-- Insight 1 -->
+                <div class="card-gradient rounded-xl p-6 shadow-lg border border-gray-700">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-900 p-2 rounded-lg mr-4">
+                            <span class="text-white font-bold">1</span>
+                        </div>
+                        <h3 class="text-xl font-semibold">Profitability Unleashed</h3>
+                    </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div>
+                            <ul class="space-y-3 text-gray-300 mb-4">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-green-400 mt-1 mr-2"></i>
+                                    <span>BMW's <span class="font-semibold text-blue-300">Net Profit Margin</span> peaked at <span class="font-bold">14.18%</span> in Q1 2024</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-green-400 mt-1 mr-2"></i>
+                                    <span>Strong recovery after dip in <span class="font-semibold">2022 (7.12%)</span></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-green-400 mt-1 mr-2"></i>
+                                    <span>Overall <span class="font-semibold">average profit margin</span> stood at <span class="font-bold">11.51%</span></span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-800 rounded-lg p-4 flex items-center justify-center">
+                            <div class="text-center">
+                                <img src="images/profitability.png" alt="Profitability Chart" class="max-h-48 rounded-lg shadow-lg opacity-90 mb-2">
+                                <p class="text-sm text-gray-400">Figure 4 Profitability</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Insight 2 -->
+                <div class="card-gradient rounded-xl p-6 shadow-lg border border-gray-700">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-purple-900 p-2 rounded-lg mr-4">
+                            <span class="text-white font-bold">2</span>
+                        </div>
+                        <h3 class="text-xl font-semibold">The Impact of Debt Risk</h3>
+                    </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                                <div class="bg-gray-800 p-3 rounded-lg">
+                                    <p class="text-xs text-gray-400">Low Debt Risk</p>
+                                    <p class="font-bold text-blue-400">2.29% ROA</p>
+                                    <p class="text-sm">10.26% Net Profit</p>
+                                </div>
+                                <div class="bg-gray-800 p-3 rounded-lg">
+                                    <p class="text-xs text-gray-400">Medium Debt Risk</p>
+                                    <p class="font-bold text-purple-400">1.74% ROA</p>
+                                    <p class="text-sm">9.06% Net Profit</p>
+                                </div>
+                                <div class="bg-gray-800 p-3 rounded-lg">
+                                    <p class="text-xs text-gray-400">High Debt Risk</p>
+                                    <p class="font-bold text-red-400">1.23% ROA</p>
+                                    <p class="text-sm">10.95% Net Profit</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-400 text-sm">Balance between leveraging debt and efficiency maintained despite risks</p>
+                        </div>
+                        <div class="bg-gray-800 rounded-lg p-4 flex items-center justify-center">
+                            <div class="text-center">
+                                <img src="images/BMW’s Financial Health levarage.png" alt="Risk & Leverage Chart" class="max-h-48 rounded-lg shadow-lg opacity-90 mb-2">
+                                <p class="text-sm text-gray-400">Figure 5 Risk & Leverage</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Insight 3 -->
+                <div class="card-gradient rounded-xl p-6 shadow-lg border border-gray-700">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-900 p-2 rounded-lg mr-4">
+                            <span class="text-white font-bold">3</span>
+                        </div>
+                        <h3 class="text-xl font-semibold">Asset Utilization Trends</h3>
+                    </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div>
+                            <ul class="space-y-3 text-gray-300 mb-4">
+                                <li class="flex items-start">
+                                    <i class="fas fa-arrow-up text-green-400 mt-1 mr-2"></i>
+                                    <span>Asset turnover peaked at <span class="font-bold">0.54</span> in <span class="font-semibold">2020</span></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-arrow-right text-yellow-400 mt-1 mr-2"></i>
+                                    <span>Stabilized at <span class="font-bold">0.30-0.40</span> in following years</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-info-circle text-blue-400 mt-1 mr-2"></i>
+                                    <span>Showing consistent, though less efficient, asset use</span>
+                                </li>
+                            </ul>
+                            <div class="bg-gray-800 rounded-lg p-4 flex items-center justify-center">
+                                <div class="text-center">
+                                    <img src="images/BMW’s Financial Health growth.png" alt="Asset Turnover Chart" class="max-h-48 rounded-lg shadow-lg opacity-90 mb-2">
+                                    <p class="text-sm text-gray-400">Figure 6 Asset Turnover</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Insight 4 -->
+                <div class="card-gradient rounded-xl p-6 shadow-lg border border-gray-700">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-red-900 p-2 rounded-lg mr-4">
+                            <span class="text-white font-bold">4</span>
+                        </div>
+                        <h3 class="text-xl font-semibold">Revenue & Net Income Dynamics</h3>
+                    </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div>
+                            <ul class="space-y-3 text-gray-300 mb-4">
+                                <li class="flex items-start">
+                                    <i class="fas fa-arrow-down text-red-400 mt-1 mr-2"></i>
+                                    <span>Revenue showed sharp <span class="font-bold">decline of 41.27%</span> in <span class="font-semibold">2018</span></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-arrow-trend-up text-green-400 mt-1 mr-2"></i>
+                                    <span>Steady recovery with <span class="font-bold">7.94% overall decrease</span> from 2017 to 2024</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-arrow-up text-green-400 mt-1 mr-2"></i>
+                                    <span>Net income increased significantly by <span class="font-bold">59.09%</span></span>
+                                </li>
+                            </ul>
+                            <p class="text-gray-400 text-sm">Improved cost control and efficient profitability management</p>
+                            <div class="bg-gray-800 rounded-lg p-4 flex items-center justify-center">
+                                <div class="text-center">
+                                    <img src="images/BMW_revenue_net_income.png" alt="Revenue & Net Income Dynamics Chart" class="max-h-48 rounded-lg shadow-lg opacity-90 mb-2">
+                                    <p class="text-sm text-gray-400">Figure 7 Revenue & Net Income Dynamics</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recommendations -->
+        <section id="recommendations" class="mb-16">
+            <div class="flex items-center mb-6">
+                <i class="fas fa-clipboard-check text-green-400 text-2xl mr-3"></i>
+                <h2 class="text-3xl font-bold text-white">Recommendations & Business Impact</h2>
+            </div>
+            
+            <div class="card-gradient rounded-xl p-8 shadow-lg border border-gray-700">
+                <div class="flex items-start mb-6">
+                    <div class="bg-red-500 px-3 py-1 rounded-full mr-4">
+                        <span class="font-bold text-white">High Priority</span>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3">Strategic Recommendations</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="bg-blue-900 p-2 rounded-lg mr-4">
+                                    <i class="fas fa-cog text-blue-300"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Improve Asset Turnover</h4>
+                                    <p class="text-gray-400 text-sm">Invest in more efficient production or enhancing asset utilization across key departments</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-purple-900 p-2 rounded-lg mr-4">
+                                    <i class="fas fa-balance-scale text-purple-300"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Balanced Debt Management</h4>
+                                    <p class="text-gray-400 text-sm">Ensure leverage is optimally used for growth while keeping Debt-to-Equity Ratio sustainable</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4">Expected Impact</h3>
+                        <div class="space-y-4">
+                            <div class="bg-gray-800 p-4 rounded-lg">
+                                <div class="flex items-center mb-2">
+                                    <div class="bg-green-900 p-2 rounded-full mr-3">
+                                        <i class="fas fa-arrow-up text-green-300"></i>
+                                    </div>
+                                    <h4 class="font-medium">Improved Asset Turnover</h4>
+                                </div>
+                                <p class="text-gray-400 text-sm">Could lead to a 5-10% increase in revenue through better utilization</p>
+                            </div>
+                            <div class="bg-gray-800 p-4 rounded-lg">
+                                <div class="flex items-center mb-2">
+                                    <div class="bg-blue-900 p-2 rounded-full mr-3">
+                                        <i class="fas fa-chart-line text-blue-300"></i>
+                                    </div>
+                                    <h4 class="font-medium">Effective Debt Management</h4>
+                                </div>
+                                <p class="text-gray-400 text-sm">Could enhance profitability and reduce financial leverage risks</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4">BMW Teams Responsible</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center bg-gray-800 p-3 rounded-lg">
+                                <div class="bg-blue-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-money-bill-wave text-blue-800"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Finance Department</h4>
+                                    <p class="text-gray-400 text-xs">Oversee debt management and profitability improvement</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center bg-gray-800 p-3 rounded-lg">
+                                <div class="bg-purple-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-cogs text-purple-800"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Operations Team</h4>
+                                    <p class="text-gray-400 text-xs">Enhance asset utilization and productivity</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Caveats & Next Steps -->
+        <section class="mb-16">
+            <div class="flex items-center mb-6">
+                <i class="fas fa-exclamation-circle text-yellow-400 text-2xl mr-3"></i>
+                <h2 class="text-3xl font-bold text-white">Caveats & Next Steps</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="card-gradient rounded-xl p-6 shadow-lg border border-gray-700">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-info-circle text-blue-400 mr-2"></i> Limitations
+                    </h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <div class="bg-gray-800 p-2 rounded-full mr-3">
+                                <i class="fas fa-virus text-red-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">Pandemic Impact</h4>
+                                <p class="text-gray-400 text-sm">Data for 2020 and 2021 showed large fluctuations due to external factors, affecting comparability</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="bg-gray-800 p-2 rounded-full mr-3">
+                                <i class="fas fa-question-circle text-yellow-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">Missing Data</h4>
+                                <p class="text-gray-400 text-sm">Some internal data for quarterly asset turnover was unavailable</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="card-gradient rounded-xl p-6 shadow-lg border border-gray-700">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-road text-green-400 mr-2"></i> Next Steps
+                    </h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <div class="bg-gray-800 p-2 rounded-full mr-3">
+                                <i class="fas fa-database text-blue-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">Improved Data Collection</h4>
+                                <p class="text-gray-400 text-sm">Establish practices for more accurate quarterly tracking of key metrics</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="bg-gray-800 p-2 rounded-full mr-3">
+                                <i class="fas fa-search-dollar text-purple-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">Market Impact Analysis</h4>
+                                <p class="text-gray-400 text-sm">Further investigate impact of external conditions on profitability and asset turnover</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section class="mb-16">
+            <div class="card-gradient rounded-xl p-8 shadow-lg border border-blue-700 border-opacity-50">
+                <div class="text-center">
+                    <i class="fas fa-flag-checkered text-4xl text-blue-400 mb-4"></i>
+                    <h2 class="text-2xl font-bold text-white mb-4">Conclusion</h2>
+                    <p class="text-gray-300 max-w-3xl mx-auto">
+                        This report offers a comprehensive analysis of BMW's financial performance based on profitability, risk, and asset efficiency, providing actionable insights and strategic recommendations for sustained growth and profitability management.
+                    </p>
+                </div>
+            </div>
+        </section>
+        <!-- Files on GitHub Section -->
+        <section class="mb-16">
+            <div class="flex items-center mb-6">
+                <i class="fab fa-github text-gray-400 text-2xl mr-3"></i>
+                <h2 class="text-3xl font-bold text-white">Files on GitHub</h2>
+            </div>
+            <div class="card-gradient rounded-xl p-8 shadow-lg border border-gray-700">
+                <p class="text-gray-300 mb-6">
+                    Access the source files, data, and visualizations for this analysis on GitHub. Explore, review, or contribute to the project.
+                </p>
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="bg-gray-800 p-4 rounded-lg flex-1">
+                        <h3 class="text-lg font-semibold text-blue-300 mb-2 flex items-center">
+                            <i class="fas fa-file-alt text-blue-400 mr-2"></i> Key Files
+                        </h3>
+                        <ul class="space-y-2 text-gray-400 text-sm">
+                            <li><i class="fas fa-code text-blue-400 mr-2"></i> <span>bmw.html</span></li>
+                            <li><i class="fas fa-database text-green-400 mr-2"></i> <span>financial_data.csv</span></li>
+                            <li><i class="fas fa-chart-bar text-purple-400 mr-2"></i> <span>visualizations/</span></li>
+                            <li><i class="fas fa-book text-yellow-400 mr-2"></i> <span>README.md</span></li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg flex-1">
+                        <h3 class="text-lg font-semibold text-blue-300 mb-2 flex items-center">
+                            <i class="fas fa-link text-blue-400 mr-2"></i> Repository Link
+                        </h3>
+                        <a href="https://github.com/yourusername/bmw-financial-analysis" target="_blank" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                            <i class="fab fa-github mr-2"></i> View on GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Footer -->
+        <footer class="border-t border-gray-700 pt-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-400">BMW Financial Health Analysis</p>
+                    <p class="text-sm text-gray-500">Data period: 2017 - 2024</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-blue-400">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-blue-600">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-red-500">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+            <p class="text-center text-gray-500 text-sm mt-8">© 2024 Financial Analysis Report. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="js/bmw.js"></script>
+</body>
+</html>

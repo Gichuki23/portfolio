@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Superstore Business Intelligence & 7-Day Forecast Sales Analysis</title>
+        <link rel="icon" type="image/png" href="images/partoe.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#10b981',
+                        accent: '#f59e0b',
+                        dark: {
+                            100: '#1e293b',
+                            200: '#1a2332',
+                            300: '#161d29',
+                        },
+                        light: '#f8fafc'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .chart-container {
+            height: 300px;
+            position: relative;
+        }
+        .divider {
+            border-top: 1px dashed #334155;
+            margin: 1.5rem 0;
+        }
+        .performance-bar {
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #10b981, #3b82f6);
+        }
+        .star-rating i {
+            color: #f59e0b;
+        }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: #0f172a;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        @media (max-width: 768px) {
+            .mobile-stack {
+                flex-direction: column;
+            }
+            .mobile-full {
+                width: 100% !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200 font-sans">
+        <!-- Navigation -->
+    <nav class="bg-white shadow-sm fixed w-full z-10 dark:bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-indigo-600 dark:text-indigo-400">Patrick Gichuki</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="../../index.html#home" class="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium dark:text-gray-300 dark:hover:text-indigo-400">Home</a>
+                    <a href="../../index.html#about" class="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium dark:text-gray-300 dark:hover:text-indigo-400">About</a>
+                    <a href="../../index.html#skills" class="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium dark:text-gray-300 dark:hover:text-indigo-400">Skills</a>
+                    <a href="../../index.html#projects" class="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium dark:text-gray-300 dark:hover:text-indigo-400">Projects</a>
+                    <a href="../../index.html#contact" class="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium dark:text-gray-300 dark:hover:text-indigo-400">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Spacer for fixed navbar -->
+    <div class="h-16"></div>
+    
+    <!-- Header -->
+    <header class="bg-gray-800 shadow-sm">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <i class="fas fa-store-alt text-3xl text-primary mr-3"></i>
+                    <div>
+                        <h1 class="text-2xl font-bold text-white">Global Superstore</h1>
+                        <p class="text-sm text-gray-400">Business Intelligence & 7-Day Forecast Analysis</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="bg-blue-900 bg-opacity-30 px-4 py-2 rounded-lg">
+                        <p class="text-xs text-gray-400">Report Date</p>
+                        <p class="font-medium">July 10, 2025</p>
+                    </div>
+                    <div class="bg-green-900 bg-opacity-30 px-4 py-2 rounded-lg">
+                        <p class="text-xs text-gray-400">Next Review</p>
+                        <p class="font-medium">July 17, 2025</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Executive Summary -->
+        <section class="bg-gray-800 rounded-xl shadow-md p-6 mb-8">
+            <div class="flex items-center mb-4">
+                <i class="fas fa-chart-line text-2xl text-primary mr-3"></i>
+                <h2 class="text-xl font-bold text-white">Executive Summary</h2>
+            </div>
+            <p class="text-gray-300 mb-4">This comprehensive analysis of Global Superstore's sales data reveals strong business growth trajectory with significant forecasting implications. Our dual-model approach using SARIMA and Prophet algorithms provides robust predictions for operational planning.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-blue-900 bg-opacity-30 p-4 rounded-lg">
+                    <h3 class="font-semibold text-blue-300 mb-2">Key Findings</h3>
+                    <ul class="list-disc pl-5 space-y-1 text-gray-300">
+                        <li>Business Growth: 50% cumulative sales increase from 2022-2024</li>
+                        <li>Forecast Range: 2,000-2,900 units/day expected for next 7 days</li>
+                        <li>Revenue Drivers: Technology products and Consumer segment dominate</li>
+                        <li>Regional Opportunity: West/East regions outperform Central/South by 80%</li>
+                    </ul>
+                </div>
+                <div class="bg-green-900 bg-opacity-30 p-4 rounded-lg">
+                    <h3 class="font-semibold text-green-300 mb-2">Strategic Recommendations</h3>
+                    <ol class="list-decimal pl-5 space-y-1 text-gray-300">
+                        <li>Inventory Planning: Prepare for 2,000-2,900 daily units using hybrid forecasting</li>
+                        <li>Regional Focus: Expand operations in underperforming Central/South regions</li>
+                        <li>Product Strategy: Increase investment in Technology and high-performing sub-categories</li>
+                        <li>Seasonality Preparation: Build inventory for Q4 holiday surge</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Performance Metrics -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-gray-800 rounded-xl shadow-md p-6">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-sm text-gray-400">Total Records</p>
+                        <h3 class="text-2xl font-bold text-white">9,800</h3>
+                    </div>
+                    <i class="fas fa-database text-gray-600 text-xl"></i>
+                </div>
+                <div class="mt-4">
+                    <div class="flex justify-between text-sm text-gray-400 mb-1">
+                        <span>Data Completeness</span>
+                        <span>99.9%</span>
+                    </div>
+                    <div class="w-full bg-gray-700 rounded-full h-2">
+                        <div class="bg-green-500 h-2 rounded-full" style="width: 99.9%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-gray-800 rounded-xl shadow-md p-6">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-sm text-gray-400">Time Span</p>
+                        <h3 class="text-2xl font-bold text-white">4 Years</h3>
+                    </div>
+                    <i class="fas fa-calendar-alt text-gray-600 text-xl"></i>
+                </div>
+                <div class="mt-4">
+                    <div class="flex justify-between text-sm text-gray-400 mb-1">
+                        <span>2021-2024</span>
+                        <span>100% Coverage</span>
+                    </div>
+                    <div class="w-full bg-gray-700 rounded-full h-2">
+                        <div class="bg-blue-500 h-2 rounded-full" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-gray-800 rounded-xl shadow-md p-6">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-sm text-gray-400">Total Sales</p>
+                        <h3 class="text-2xl font-bold text-white">$2.48M</h3>
+                    </div>
+                    <i class="fas fa-dollar-sign text-gray-600 text-xl"></i>
+                </div>
+                <div class="mt-4">
+                    <div class="flex justify-between text-sm text-gray-400 mb-1">
+                        <span>Growth (2022-2024)</span>
+                        <span class="text-green-400 font-medium">+50%</span>
+                    </div>
+                    <div class="w-full bg-gray-700 rounded-full h-2">
+                        <div class="bg-purple-500 h-2 rounded-full" style="width: 50%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-gray-800 rounded-xl shadow-md p-6">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-sm text-gray-400">Forecast Range</p>
+                        <h3 class="text-2xl font-bold text-white">2K-2.9K</h3>
+                    </div>
+                    <i class="fas fa-chart-bar text-gray-600 text-xl"></i>
+                </div>
+                <div class="mt-4">
+                    <div class="flex justify-between text-sm text-gray-400 mb-1">
+                        <span>Daily Units</span>
+                        <span>Next 7 Days</span>
+                    </div>
+                    <div class="w-full bg-gray-700 rounded-full h-2">
+                        <div class="bg-yellow-500 h-2 rounded-full" style="width: 72%"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Historical Performance -->
+        <section class="bg-gray-800 rounded-xl shadow-md p-6 mb-8">
+            <div class="flex items-center mb-6">
+                <i class="fas fa-history text-2xl text-primary mr-3"></i>
+                <h2 class="text-xl font-bold text-white">Historical Performance Analysis</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                <div class="bg-gray-700 p-4 rounded-lg">
+                    <h3 class="font-semibold text-gray-200 mb-3">Sales Trend Evolution (2021-2024)</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <span class="bg-blue-900 text-blue-200 text-xs font-medium px-2.5 py-0.5 rounded mr-2">2021-2022</span>
+                            <span class="text-gray-300">Slight decline (-2-4%)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-green-900 text-green-200 text-xs font-medium px-2.5 py-0.5 rounded mr-2">2022-2023</span>
+                            <span class="text-gray-300">Strong recovery (+30%)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-purple-900 text-purple-200 text-xs font-medium px-2.5 py-0.5 rounded mr-2">2023-2024</span>
+                            <span class="text-gray-300">Sustained growth (+20%)</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-gray-700 p-4 rounded-lg">
+                    <h3 class="font-semibold text-gray-200 mb-3">Key Observations</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-arrow-up text-green-400 mt-1 mr-2"></i>
+                            <span class="text-gray-300">Clear upward trajectory with accelerating momentum post-2022</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-wave-square text-yellow-400 mt-1 mr-2"></i>
+                            <span class="text-gray-300">High daily volatility ranging from near-zero to $25,000+</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-calendar-check text-blue-400 mt-1 mr-2"></i>
+                            <span class="text-gray-300">Pronounced seasonal patterns with Q4 peaks</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-gray-700 p-4 rounded-lg">
+                    <h3 class="font-semibold text-gray-200 mb-3">Business Impact</h3>
+                    <p class="text-gray-300">The growth acceleration indicates successful strategic initiatives implemented after 2022, suggesting effective market penetration and operational improvements.</p>
+                    <div class="mt-3 bg-gray-800 p-3 rounded-md border border-gray-700">
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="font-medium">Growth Momentum</span>
+                            <span class="text-green-400 font-medium">Accelerating</span>
+                        </div>
+                        <div class="performance-bar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart Placeholder -->
+            <div class="chart-container bg-gray-700 rounded-lg p-4 mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-medium text-gray-200">Sales Trend (2021-2024)</h3>
+                </div>
+                <div class="flex items-center justify-center h-48">
+                    <img src="your-image-path.jpg" alt="Sales Trend Chart" class="max-h-full max-w-full rounded shadow" />
+                </div>
+            </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Regional & Product Performance -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <!-- Regional Performance -->
+            <div class="bg-gray-800 rounded-xl shadow-md p-6">
+                <div class="flex items-center mb-6">
+                    <i class="fas fa-globe-americas text-2xl text-primary mr-3"></i>
+                    <h2 class="text-xl font-bold text-white">Regional Performance</h2>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-700">
+                        <thead class="bg-gray-700">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Region</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Total Sales</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Market Share</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Rating</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-gray-800 divide-y divide-gray-700">
+                            <tr>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-white">West</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">$708,000</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">28.5%</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">
+                                    <div class="star-rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-white">East</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">$678,000</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">27.2%</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">
+                                    <div class="star-rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-white">Central</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">$501,000</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">20.1%</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">
+                                    <div class="star-rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-white">South</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">$391,000</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">15.7%</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">
+                                    <div class="star-rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="mt-6 bg-blue-900 bg-opacity-30 p-4 rounded-lg">
+                    <h3 class="font-semibold text-blue-300 mb-2">Strategic Insight</h3>
+                    <p class="text-gray-300">West and East regions generate 55.7% of total revenue, indicating market concentration. Central and South regions represent significant growth opportunities with targeted investment.</p>
+                </div>
+            </div>
+            
+            <!-- Product Category Performance -->
+            <div class="bg-gray-800 rounded-xl shadow-md p-6">
+                <div class="flex items-center mb-6">
+                    <i class="fas fa-boxes text-2xl text-primary mr-3"></i>
+                    <h2 class="text-xl font-bold text-white">Product Category Performance</h2>
+                </div>
+                
+                <div class="space-y-4 mb-6">
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-300">Technology</span>
+                            <span class="text-sm font-medium text-gray-300">$830,000 (33.4%)</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-2.5">
+                            <div class="bg-blue-600 h-2.5 rounded-full" style="width: 33.4%"></div>
+                        </div>
+                        <div class="text-xs text-gray-400 mt-1">Top performer with highest margins (Phones & Accessories)</div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-300">Furniture</span>
+                            <span class="text-sm font-medium text-gray-300">$741,000 (29.8%)</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-2.5">
+                            <div class="bg-green-600 h-2.5 rounded-full" style="width: 29.8%"></div>
+                        </div>
+                        <div class="text-xs text-gray-400 mt-1">Strong secondary category (Chairs & Tables)</div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-300">Office Supplies</span>
+                            <span class="text-sm font-medium text-gray-300">$719,000 (28.9%)</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-2.5">
+                            <div class="bg-purple-600 h-2.5 rounded-full" style="width: 28.9%"></div>
+                        </div>
+                        <div class="text-xs text-gray-400 mt-1">Consistent performer (Diverse sub-category portfolio)</div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-700 p-4 rounded-lg mb-4">
+                    <h3 class="font-semibold text-gray-200 mb-2">Sub-Category Champions</h3>
+                    <div class="grid grid-cols-3 gap-2 text-center">
+                        <div class="bg-blue-900 bg-opacity-50 p-2 rounded">
+                            <p class="text-xs text-blue-300">Phones</p>
+                            <p class="font-medium">$330K+</p>
+                        </div>
+                        <div class="bg-green-900 bg-opacity-50 p-2 rounded">
+                            <p class="text-xs text-green-300">Chairs</p>
+                            <p class="font-medium">$328K+</p>
+                        </div>
+                        <div class="bg-purple-900 bg-opacity-50 p-2 rounded">
+                            <p class="text-xs text-purple-300">Storage</p>
+                            <p class="font-medium">$223K+</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-yellow-900 bg-opacity-30 p-4 rounded-lg">
+                    <h3 class="font-semibold text-yellow-300 mb-2">Strategic Recommendation</h3>
+                    <p class="text-gray-300">Focus procurement and marketing investments on top-performing sub-categories while evaluating low-performers like Art, Envelopes, and Fasteners for potential discontinuation.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Customer Segment Analysis -->
+        <section class="bg-gray-800 rounded-xl shadow-md p-6 mb-8">
+            <div class="flex items-center mb-6">
+                <i class="fas fa-users text-2xl text-primary mr-3"></i>
+                <h2 class="text-xl font-bold text-white">Customer Segment Analysis</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div class="bg-gray-800 border border-blue-900 rounded-lg p-4 shadow-sm">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-semibold text-blue-300">Consumer</h3>
+                        <span class="bg-blue-900 text-blue-200 text-xs font-medium px-2.5 py-0.5 rounded">46.7%</span>
+                    </div>
+                    <p class="text-gray-300 mb-3">$1,161,000 revenue</p>
+                    <div class="flex items-center">
+                        <span class="text-xs font-medium text-green-400 mr-2">High Growth Potential</span>
+                        <i class="fas fa-arrow-up text-green-400"></i>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-2">Mass market dominance indicates strong B2C position</p>
+                </div>
+                
+                <div class="bg-gray-800 border border-green-900 rounded-lg p-4 shadow-sm">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-semibold text-green-300">Corporate</h3>
+                        <span class="bg-green-900 text-green-200 text-xs font-medium px-2.5 py-0.5 rounded">28.4%</span>
+                    </div>
+                    <p class="text-gray-300 mb-3">$706,000 revenue</p>
+                    <div class="flex items-center">
+                        <span class="text-xs font-medium text-yellow-400 mr-2">Medium Growth Potential</span>
+                        <i class="fas fa-arrow-right text-yellow-400"></i>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-2">Substantial B2B expansion opportunities</p>
+                </div>
+                
+                <div class="bg-gray-800 border border-purple-900 rounded-lg p-4 shadow-sm">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-semibold text-purple-300">Home Office</h3>
+                        <span class="bg-purple-900 text-purple-200 text-xs font-medium px-2.5 py-0.5 rounded">17.3%</span>
+                    </div>
+                    <p class="text-gray-300 mb-3">$429,000 revenue</p>
+                    <div class="flex items-center">
+                        <span class="text-xs font-medium text-green-400 mr-2">High Growth Potential</span>
+                        <i class="fas fa-arrow-up text-green-400"></i>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-2">Potential for targeted marketing initiatives</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Forecasting Model Analysis -->
+        <section class="bg-gray-800 rounded-xl shadow-md p-6 mb-8">
+            <div class="flex items-center mb-6">
+                <i class="fas fa-chart-pie text-2xl text-primary mr-3"></i>
+                <h2 class="text-xl font-bold text-white">Forecasting Model Analysis</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <div>
+                    <h3 class="font-semibold text-gray-200 mb-4">Model Selection & Methodology</h3>
+                    <div class="space-y-4">
+                        <div class="bg-blue-900 bg-opacity-30 p-4 rounded-lg">
+                            <div class="flex items-start">
+                                <div class="bg-blue-800 p-2 rounded-full mr-3">
+                                    <i class="fas fa-facebook text-blue-300"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-blue-300 mb-1">Prophet Model</h4>
+                                    <p class="text-sm text-gray-300">Facebook's time-series forecasting tool with strengths in handling seasonality, missing data, and outliers. Conservative, trend-focused predictions.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-green-900 bg-opacity-30 p-4 rounded-lg">
+                            <div class="flex items-start">
+                                <div class="bg-green-800 p-2 rounded-full mr-3">
+                                    <i class="fas fa-project-diagram text-green-300"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-green-300 mb-1">SARIMA Model</h4>
+                                    <p class="text-sm text-gray-300">Seasonal Autoregressive Integrated Moving Average that captures complex seasonal patterns. Responsive to recent trends and volatility.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold text-gray-200 mb-4">7-Day Forecast Results</h3>
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-blue-500 pl-4 py-2">
+                            <h4 class="font-medium text-blue-300 mb-1">Prophet Predictions</h4>
+                            <ul class="text-sm text-gray-300 space-y-1">
+                                <li>Average Daily Sales: <span class="font-medium">2,002 units</span></li>
+                                <li>Forecast Range: <span class="font-medium">1,306 - 2,556 units/day</span></li>
+                                <li>Confidence: <span class="font-medium">Moderate uncertainty (±1,350 units)</span></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="border-l-4 border-green-500 pl-4 py-2">
+                            <h4 class="font-medium text-green-300 mb-1">SARIMA Predictions</h4>
+                            <ul class="text-sm text-gray-300 space-y-1">
+                                <li>Average Daily Sales: <span class="font-medium">2,908 units</span></li>
+                                <li>Forecast Range: <span class="font-medium">2,798 - 3,130 units/day</span></li>
+                                <li>Confidence: <span class="font-medium">Wide uncertainty (±2,500 units)</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 class="font-semibold text-gray-200 mb-4">Forecast Comparison & Variance Analysis</h3>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-700">
+                    <thead class="bg-gray-700">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Date</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">SARIMA</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Prophet</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Difference</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Variance %</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-gray-800 divide-y divide-gray-700">
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">2024-12-31</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-white">3,130</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">2,310</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-blue-400 font-medium">+820</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-red-400 font-medium">+35.5%</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">2025-01-01</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-white">2,937</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">2,556</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-blue-400 font-medium">+381</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-red-400 font-medium">+14.9%</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">2025-01-02</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-white">2,833</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">1,983</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-blue-400 font-medium">+850</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-red-400 font-medium">+42.9%</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">2025-01-03</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-white">2,798</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">1,306</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-blue-400 font-medium">+1,492</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-red-400 font-medium">+114.3%</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">2025-01-04</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-white">2,879</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">1,828</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-blue-400 font-medium">+1,051</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-red-400 font-medium">+57.5%</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">2025-01-05</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-white">2,948</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">2,176</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-blue-400 font-medium">+772</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-red-400 font-medium">+35.5%</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">2025-01-06</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-white">2,828</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">1,856</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-blue-400 font-medium">+971</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-red-400 font-medium">+52.3%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="mt-6 bg-yellow-900 bg-opacity-30 p-4 rounded-lg">
+                <h3 class="font-semibold text-yellow-300 mb-2">Key Insights</h3>
+                <ul class="list-disc pl-5 space-y-1 text-gray-300">
+                    <li>SARIMA consistently predicts 15-114% higher sales than Prophet</li>
+                    <li>Maximum variance occurs mid-week (January 3rd)</li>
+                    <li>Both models show weekly seasonality patterns</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Risk Assessment & Strategic Recommendations -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <!-- Risk Assessment -->
+            <div class="bg-gray-800 rounded-xl shadow-md p-6">
+                <div class="flex items-center mb-6">
+                    <i class="fas fa-exclamation-triangle text-2xl text-primary mr-3"></i>
+                    <h2 class="text-xl font-bold text-white">Risk Assessment</h2>
+                </div>
+                
+                <div class="mb-6">
+                    <h3 class="font-semibold text-gray-200 mb-3">Volatility Factors</h3>
+                    <ul class="list-disc pl-5 space-y-2 text-gray-300">
+                        <li>Historical Volatility: Daily sales range from $0 to $25,000+</li>
+                        <li>Seasonal Dependency: Strong Q4 spikes affect annual patterns</li>
+                        <li>Customer Concentration: Large B2B orders create demand lumps</li>
+                        <li>Regional Variations: Geographic performance disparities</li>
+                    </ul>
+                </div>
+                
+                <div class="mb-6">
+                    <h3 class="font-semibold text-gray-200 mb-3">Forecast Reliability</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-blue-900 bg-opacity-30 p-3 rounded-lg">
+                            <h4 class="font-medium text-blue-300 mb-1">Prophet</h4>
+                            <p class="text-sm text-gray-300">68% confidence intervals suggest moderate reliability</p>
+                        </div>
+                        <div class="bg-green-900 bg-opacity-30 p-3 rounded-lg">
+                            <h4 class="font-medium text-green-300 mb-1">SARIMA</h4>
+                            <p class="text-sm text-gray-300">Wider confidence intervals indicate higher uncertainty but better trend capture</p>
+                        </div>
+                    </div>
+                    <div class="mt-3 bg-gray-700 p-3 rounded-lg">
+                        <p class="text-sm font-medium text-gray-300">Recommendation: Use ensemble approach combining both models</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold text-gray-200 mb-3">Mitigation Strategies</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-start">
+                            <div class="bg-purple-800 p-2 rounded-full mr-3">
+                                <i class="fas fa-boxes text-purple-300 text-sm"></i>
+                            </div>
+                            <p class="text-sm text-gray-300">Safety Stock: Maintain 20-30% buffer inventory</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-blue-800 p-2 rounded-full mr-3">
+                                <i class="fas fa-truck text-blue-300 text-sm"></i>
+                            </div>
+                            <p class="text-sm text-gray-300">Flexible Supply Chain: Prepare for 2,000-3,000 unit daily range</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-green-800 p-2 rounded-full mr-3">
+                                <i class="fas fa-project-diagram text-green-300 text-sm"></i>
+                            </div>
+                            <p class="text-sm text-gray-300">Scenario Planning: Develop conservative, moderate, and optimistic plans</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-yellow-800 p-2 rounded-full mr-3">
+                                <i class="fas fa-chart-line text-yellow-300 text-sm"></i>
+                            </div>
+                            <p class="text-sm text-gray-300">Real-time Monitoring: Track actual vs. forecasted performance daily</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Strategic Recommendations -->
+            <div class="bg-gray-800 rounded-xl shadow-md p-6">
+                <div class="flex items-center mb-6">
+                    <i class="fas fa-chess-queen text-2xl text-primary mr-3"></i>
+                    <h2 class="text-xl font-bold text-white">Strategic Recommendations</h2>
+                </div>
+                
+                <div class="space-y-6">
+                    <div class="border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="font-semibold text-blue-300 mb-2">Inventory Planning</h3>
+                        <ul class="list-disc pl-5 space-y-1 text-gray-300">
+                            <li>Conservative approach: Use Prophet (~2,000 units/day) for baseline inventory</li>
+                            <li>Growth scenario: Use SARIMA (~2,900 units/day) for peak season planning</li>
+                            <li>Hybrid approach: Average both models for balanced planning</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="border-l-4 border-green-500 pl-4 py-2">
+                        <h3 class="font-semibold text-green-300 mb-2">Resource Allocation</h3>
+                        <ul class="list-disc pl-5 space-y-1 text-gray-300">
+                            <li>Focus on West/East regions for expansion</li>
+                            <li>Invest in Technology and Furniture categories</li>
+                            <li>Target Consumer and Corporate segments for marketing</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="border-l-4 border-purple-500 pl-4 py-2">
+                        <h3 class="font-semibold text-purple-300 mb-2">Risk Management</h3>
+                        <ul class="list-disc pl-5 space-y-1 text-gray-300">
+                            <li>High volatility requires flexible supply chain management</li>
+                            <li>Seasonal patterns demand inventory buildup before Q4</li>
+                            <li>Large confidence intervals suggest maintaining safety stock</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-gray-700 p-4 rounded-lg">
+                        <h3 class="font-semibold text-gray-200 mb-2">Strategic Insights</h3>
+                        <ol class="list-decimal pl-5 space-y-2 text-gray-300">
+                            <li>Business is growing: Strong upward trend indicates healthy market position</li>
+                            <li>Seasonal dependency: Plan for Q4 spikes and mid-year promotions</li>
+                            <li>Regional opportunities: Central/South regions need attention</li>
+                            <li>Product portfolio: Consider expanding high-performing categories</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Financial Impact & Conclusion -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <!-- Financial Impact -->
+            <div class="bg-gray-800 rounded-xl shadow-md p-6">
+                <div class="flex items-center mb-6">
+                    <i class="fas fa-money-bill-wave text-2xl text-primary mr-3"></i>
+                    <h2 class="text-xl font-bold text-white">Financial Impact Analysis</h2>
+                </div>
+                
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="font-semibold text-gray-200 mb-3">Revenue Implications</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-blue-900 bg-opacity-30 p-3 rounded-lg">
+                                <h4 class="font-medium text-blue-300 mb-1">Conservative (Prophet)</h4>
+                                <p class="text-2xl font-bold">$14,014</p>
+                                <p class="text-xs text-gray-400">daily revenue potential</p>
+                            </div>
+                            <div class="bg-green-900 bg-opacity-30 p-3 rounded-lg">
+                                <h4 class="font-medium text-green-300 mb-1">Optimistic (SARIMA)</h4>
+                                <p class="text-2xl font-bold">$20,356</p>
+                                <p class="text-xs text-gray-400">daily revenue potential</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 bg-gray-700 p-3 rounded-lg">
+                            <p class="text-sm font-medium text-gray-300">Expected Range: $14,000-$20,000 daily revenue</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold text-gray-200 mb-3">Cost Considerations</h3>
+                        <ul class="list-disc pl-5 space-y-2 text-gray-300">
+                            <li>Inventory Holding Costs: Plan for 2,000-3,000 unit inventory</li>
+                            <li>Stockout Risk: Potential $6,000+ daily revenue loss if under-stocked</li>
+                            <li>Overstock Risk: Carrying costs for excess inventory</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold text-gray-200 mb-3">ROI Projections</h3>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div class="bg-purple-900 bg-opacity-30 p-2 rounded text-center">
+                                <p class="text-xs text-purple-300">Investment</p>
+                                <p class="font-medium">Inventory & Scaling</p>
+                            </div>
+                            <div class="bg-yellow-900 bg-opacity-30 p-2 rounded text-center">
+                                <p class="text-xs text-yellow-300">Expected Return</p>
+                                <p class="font-medium">15-20%</p>
+                            </div>
+                            <div class="bg-green-900 bg-opacity-30 p-2 rounded text-center">
+                                <p class="text-xs text-green-300">Payback Period</p>
+                                <p class="font-medium">3-4 months</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Conclusion -->
+            <div class="bg-gray-800 rounded-xl shadow-md p-6">
+                <div class="flex items-center mb-6">
+                    <i class="fas fa-flag-checkered text-2xl text-primary mr-3"></i>
+                    <h2 class="text-xl font-bold text-white">Conclusion</h2>
+                </div>
+                
+                <p class="text-gray-300 mb-6">Our comprehensive analysis reveals a healthy, growing business with predictable seasonal patterns and clear growth opportunities. The dual-model forecasting approach provides robust planning capabilities for the next 7 days.</p>
+                
+                <div class="mb-6">
+                    <h3 class="font-semibold text-gray-200 mb-3">Key Success Factors</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-start">
+                            <div class="bg-blue-800 p-2 rounded-full mr-3">
+                                <i class="fas fa-chart-line text-blue-300 text-sm"></i>
+                            </div>
+                            <p class="text-sm text-gray-300">Embrace Volatility: Plan for range scenarios rather than point estimates</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-green-800 p-2 rounded-full mr-3">
+                                <i class="fas fa-bullse-eye text-green-300 text-sm"></i>
+                            </div>
+                            <p class="text-sm text-gray-300">Leverage Strengths: Focus on Technology products and Consumer segments</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-purple-800 p-2 rounded-full mr-3">
+                                <i class="fas fa-map-marked-alt text-purple-300 text-sm"></i>
+                            </div>
+                            <p class="text-sm text-gray-300">Address Gaps: Develop Central/South regions and Home Office segment</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-yellow-800 p-2 rounded-full mr-3">
+                                <i class="fas fa-eye text-yellow-300 text-sm"></i>
+                            </div>
+                            <p class="text-sm text-gray-300">Continuous Monitoring: Track forecast accuracy and adjust strategies</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold text-gray-200 mb-3">Next Steps</h3>
+                    <ol class="list-decimal pl-5 space-y-2 text-gray-300">
+                        <li>Implement recommended inventory levels</li>
+                        <li>Monitor actual performance against forecasts</li>
+                        <li>Refine models based on new data</li>
+                        <li>Develop quarterly business review process</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Appendices -->
+        <section class="bg-gray-800 rounded-xl shadow-md p-6 mb-8">
+            <div class="flex items-center mb-6">
+                <i class="fas fa-book text-2xl text-primary mr-3"></i>
+                <h2 class="text-xl font-bold text-white">Appendices</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="font-semibold text-gray-200 mb-3">Technical Model Details</h3>
+                    <ul class="list-disc pl-5 space-y-2 text-gray-300">
+                        <li><span class="font-medium">Prophet Model:</span> Additive seasonality, daily patterns, trend components</li>
+                        <li><span class="font-medium">SARIMA Model:</span> (0,1,1)×(1,0,0)[7] with weekly seasonality</li>
+                        <li><span class="font-medium">Data Quality:</span> 99.9% completeness, 4-year historical baseline</li>
+                    </ul>
+                    
+                    <h3 class="font-semibold text-gray-200 mt-6 mb-3">Assumptions & Limitations</h3>
+                    <ul class="list-disc pl-5 space-y-2 text-gray-300">
+                        <li>Historical patterns continue: No major market disruptions assumed</li>
+                        <li>Seasonal consistency: Holiday patterns repeat annually</li>
+                        <li>Model limitations: 7-day forecast horizon for highest accuracy</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold text-gray-200 mb-3">Glossary</h3>
+                    <div class="space-y-3">
+                        <div>
+                            <p class="font-medium text-gray-200">SARIMA</p>
+                            <p class="text-sm text-gray-400">Seasonal AutoRegressive Integrated Moving Average</p>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-200">Prophet</p>
+                            <p class="text-sm text-gray-400">Facebook's open-source forecasting tool</p>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-200">Confidence Interval</p>
+                            <p class="text-sm text-gray-400">Statistical range of forecast uncertainty</p>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-200">Seasonality</p>
+                            <p class="text-sm text-gray-400">Recurring patterns in time-series data</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Jupyter Notebook Access Button -->
+    <div class="flex justify-center mb-12">
+        <div class="flex flex-col md:flex-row gap-4 w-full md:w-auto items-center">
+            <a href="https://your-notebook-link-here" target="_blank" rel="noopener"
+               class="inline-flex items-center px-6 py-3 bg-primary text-white font-semibold rounded-lg shadow hover:bg-blue-700 transition-colors duration-200 w-full md:w-auto justify-center">
+                <i class="fas fa-book-open mr-2"></i>
+                View Full Jupyter Notebook
+            </a>
+            <a href="https://github.com/BIAnalyst-Patrick/Sales-Forecasting" target="_blank" rel="noopener"
+               class="inline-flex items-center px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow hover:bg-gray-700 transition-colors duration-200 w-full md:w-auto justify-center">
+                <i class="fab fa-github mr-2"></i>
+                View Files on GitHub
+            </a>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-8 border-t border-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-lg font-bold mb-2">Report Prepared by:</h3>
+                    <p>Business Intelligence Team</p>
+                </div>
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-lg font-bold mb-2">Model Validation:</h3>
+                    <p>Sales Operations Department</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-2">Review Information:</h3>
+                    <p>Current: July 10, 2025 | Next: July 17, 2025</p>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-800 text-center text-sm text-gray-500">
+                <p>© 2025 Global Superstore. All rights reserved. Confidential Business Data.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple JavaScript for interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tooltip functionality
+            const tooltips = document.querySelectorAll('.tooltip');
+            tooltips.forEach(tooltip => {
+                tooltip.addEventListener('mouseenter', function() {
+                    this.querySelector('.tooltip-text').style.opacity = '1';
+                    this.querySelector('.tooltip-text').style.visibility = 'visible';
+                });
+                tooltip.addEventListener('mouseleave', function() {
+                    this.querySelector('.tooltip-text').style.opacity = '0';
+                    this.querySelector('.tooltip-text').style.visibility = 'hidden';
+                });
+            });
+            
+            // You could add chart rendering here if using a library like Chart.js
+            // For now, we're using placeholder elements
+        });
+    </script>
+</body>
+</html>
